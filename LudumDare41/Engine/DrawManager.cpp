@@ -1,4 +1,5 @@
 #include "DrawManager.h"
+#include "MapManager.h"
 
 
 
@@ -22,6 +23,7 @@ void DrawManager::Refresh()
 
 void DrawManager::DrawAll(sf::RenderWindow &aWindow)
 {
+	Refresh();
 	for (DrawObject *obj : mDrawObjects)
 	{
 		aWindow.draw(obj->GetSprite());
@@ -31,7 +33,6 @@ void DrawManager::DrawAll(sf::RenderWindow &aWindow)
 void DrawManager::Add(DrawObject &aDrawObject)
 {
 	mDrawObjects.push_back(&aDrawObject);
-	Refresh();
 }
 
 void DrawManager::Remove(DrawObject & aDrawObject)

@@ -7,7 +7,6 @@ DrawObject::DrawObject(DrawManager &aDrawManager, sf::Drawable &aDrawable, int32
 	mDrawLevel(aDrawLevel)
 {
 	mDrawManager.Add(*this);
-	mDrawManager.Refresh();
 }
 
 DrawObject::~DrawObject()

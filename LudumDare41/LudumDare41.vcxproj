@@ -131,7 +131,8 @@
     <ClCompile Include="Engine\DrawObject.cpp" />
     <ClCompile Include="Engine\TileObject.cpp" />
     <ClCompile Include="Engine\WindowManager.cpp" />
-	<ClCompile Include="Entities\Player.cpp" />
+    <ClCompile Include="Entities\PlainTiles.cpp" />
+    <ClCompile Include="Entities\Player.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -145,7 +146,8 @@
     <ClInclude Include="Engine\MapManager.h" />
     <ClInclude Include="Engine\TileObject.h" />
     <ClInclude Include="Engine\WindowManager.h" />
-	<ClInclude Include="Entities\Player.h" />
+    <ClInclude Include="Entities\PlainTiles.h" />
+    <ClInclude Include="Entities\Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

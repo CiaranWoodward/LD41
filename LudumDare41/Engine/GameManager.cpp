@@ -7,6 +7,7 @@
 #include "DrawObject.h"
 
 #include "../Entities/Player.h"
+#include "../Entities/PlainTiles.h"
 
 GameManager::GameManager() :
 	mDrawManager(),
@@ -30,6 +31,7 @@ int GameManager::run()
 {
 	bool run = true;
 	
+	new PlainTiles(*this);
 	new Player(*this);
 	
 	while (run)
