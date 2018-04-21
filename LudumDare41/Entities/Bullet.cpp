@@ -1,13 +1,13 @@
 #include "Bullet.h"
 
-Bullet::Bullet(GameManager & aGameManager, sf::Vector3f aStartPoint, sf::Vector3f aBaseVelocity) :
+Bullet::Bullet(GameManager & aGameManager, sf::Vector3f aStartPoint, sf::Vector3f aBaseVelocity, sf::Vector3f aDirection) :
 	LogicObject(aGameManager.GetLogicManager()),
 	mGameManager(aGameManager),
 	mSprite(),
 	mShadowSprite(),
 	mDrawObject(mGameManager.GetDrawManager(), mSprite, 0),
 	mShadowDrawObject(mGameManager.GetDrawManager(), mShadowSprite, 0),
-	mParticleHelper(aStartPoint, sf::Vector3f(600.0f, 0.0f, 1.f) + GetRandomScatter(40.f) + aBaseVelocity, 0.5f, 0.2f, 0.001f)
+	mParticleHelper(aStartPoint, 800.f * aDirection + GetRandomScatter(40.f) + aBaseVelocity, 0.5f, 0.2f, 0.001f)
 {
 	int randOffset = (std::rand() % 4) * 2;
 

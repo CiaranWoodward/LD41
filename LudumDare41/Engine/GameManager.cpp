@@ -8,6 +8,7 @@
 
 #include "../Entities/Player.h"
 #include "../Entities/PlainTiles.h"
+#include "../Entities/Crosshair.h"
 
 GameManager::GameManager() :
 	mDrawManager(),
@@ -32,7 +33,7 @@ int GameManager::run()
 	bool run = true;
 	
 	new PlainTiles(*this);
-	new Player(*this);
+	new Player(*this, *(new Crosshair(*this)));
 	
 	while (run)
 	{

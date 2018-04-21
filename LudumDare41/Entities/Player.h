@@ -5,11 +5,13 @@
 #include "../Engine/TileObject.h"
 #include "../Engine/DrawObject.h"
 
+#include "Crosshair.h"
+
 class Player :
 	public LogicObject
 {
 public:
-	Player(GameManager &aGameManager);
+	Player(GameManager &aGameManager, Crosshair &aCrosshair);
 	~Player();
 
 	bool Update(sf::Time dt) override;
@@ -18,6 +20,7 @@ public:
 
 private:
 	GameManager &mGameManager;
+	Crosshair &mCrosshair;
 
 	sf::Sprite mSprite;
 	sf::Text mTextMessage;

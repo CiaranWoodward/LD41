@@ -132,6 +132,7 @@
     <ClCompile Include="Engine\TileObject.cpp" />
     <ClCompile Include="Engine\WindowManager.cpp" />
     <ClCompile Include="Entities\Bullet.cpp" />
+    <ClCompile Include="Entities\Crosshair.cpp" />
     <ClCompile Include="Entities\PlainTiles.cpp" />
     <ClCompile Include="Entities\Player.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Engine\TileObject.h" />
     <ClInclude Include="Engine\WindowManager.h" />
     <ClInclude Include="Entities\Bullet.h" />
+    <ClInclude Include="Entities\Crosshair.h" />
     <ClInclude Include="Entities\PlainTiles.h" />
     <ClInclude Include="Entities\Player.h" />
     <ClInclude Include="ParticleHelper.h" />

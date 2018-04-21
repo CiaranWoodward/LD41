@@ -84,6 +84,9 @@
     <ClCompile Include="Entities\Bullet.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Entities\Crosshair.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WindowManager.h">
@@ -126,6 +129,9 @@
       <Filter>Header Files\Engine\Helpers</Filter>
     </ClInclude>
     <ClInclude Include="Entities\Bullet.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Crosshair.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>

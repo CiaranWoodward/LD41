@@ -6,9 +6,10 @@
 #include "SFML\Window\Keyboard.hpp"
 
 
-Player::Player(GameManager &aGameManager) :
+Player::Player(GameManager &aGameManager, Crosshair &aCrosshair) :
 	LogicObject(aGameManager.GetLogicManager()),
 	mGameManager(aGameManager),
+	mCrosshair(aCrosshair),
 	mSprite(),
 	mTextMessage("", mGameManager.GetDrawManager().GetGlobalFont(), 20),
 	mCooldown(sf::Time::Zero),
@@ -49,12 +50,19 @@ bool Player::Update(sf::Time dt)
 	}
 	else
 	{
-		sf::Vector3f mGunCoords = MapManager::GetFloorCoords(mSprite.getPosition() - sf::Vector2f(0.f, 5.f));
-		sf::Vector3f mGunSpeed(mVelocity.x, mVelocity.y * 2, 0.f);
-		mGunCoords.z += 44;
+		sf::Vector3f gunCoords = MapManager::GetFloorCoords(mSprite.getPosition() - sf::Vector2f(0.f, 5.f));
+		gunCoords.z += 44;
+		sf::Vector3f gunSpeed(mVelocity.x, mVelocity.y * 2, 0.f);
+		sf::Vector3f shootDir = mCrosshair.GetTarget() - gunCoords;
+		float mag = std::sqrtf(shootDir.x * shootDir.x + shootDir.y * shootDir.y + shootDir.z * shootDir.z);
+		if (mag <= 0) return true;
+
+		shootDir = shootDir / mag;
+
 		mCooldown = sf::Time::Zero;
-		new Bullet(mGameManager, mGunCoords, mGunSpeed);
-		mCooldown = sf::seconds(0.2f);
+
+		new Bullet(mGameManager, gunCoords, gunSpeed, shootDir);
+		mCooldown = sf::seconds(0.1f);
 	}
 
 	return true;
@@ -97,4 +105,5 @@ void Player::HandleKeyboardInput(sf::Time dt)
 	mVelocity = dir * mSpeed;
 
 	mSprite.move(mVelocity * dt.asSeconds());
+	mDrawObject.SetDrawLevel(mSprite.getPosition().y - 5);
 }

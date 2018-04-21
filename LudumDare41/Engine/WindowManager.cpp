@@ -13,6 +13,7 @@ WindowManager::WindowManager(GameManager &aGameManager) :
 	mView = sf::View(center, dimens);
 	mWindow.setView(mView);
 	mWindow.setFramerateLimit(60);
+	mWindow.setMouseCursorVisible(false);
 
 	mHUD.setTexture(mGameManager.GetDrawManager().GetGlobalTexture());
 	mHUD.setTextureRect(sf::IntRect(1473, 177, 255, 687));
@@ -59,4 +60,12 @@ bool WindowManager::Update()
 	mWindow.display();
 	
 	return true;
+}
+
+sf::Vector2f WindowManager::GetWorldCoordsFromWindow(sf::Vector2i aWindowCoords)
+{
+	sf::Vector2f coords = mWindow.mapPixelToCoords(aWindowCoords);
+	//coords.y /= 2.f;
+
+	return coords;
 }

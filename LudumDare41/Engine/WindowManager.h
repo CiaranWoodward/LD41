@@ -16,6 +16,8 @@ public:
 
 	sf::RenderWindow &GetWindow() { return mWindow; }
 
+	sf::Vector2f GetWorldCoordsFromWindow(sf::Vector2i aWindowCoords);
+
 private:
 	sf::RenderWindow mWindow;
 	sf::View mView;
