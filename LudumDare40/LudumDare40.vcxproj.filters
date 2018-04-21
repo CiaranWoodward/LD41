@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Engine">
+      <UniqueIdentifier>{42976489-f089-40ea-9fa8-98601391ae96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{bbef5747-5e2e-4a01-b728-5d0a49336b42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core Objects">
+      <UniqueIdentifier>{420e9b69-eb81-4be7-b630-257cff8ac511}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Core Objects">
+      <UniqueIdentifier>{11b57589-1bd1-4e4e-a3bd-4025e709c0d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities">
+      <UniqueIdentifier>{b9f93d60-3def-4e9b-8c97-900888f13163}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities">
+      <UniqueIdentifier>{5b845d9d-42b0-43f1-9a43-4973b6e115b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities\Buildings">
+      <UniqueIdentifier>{51c2a81f-d730-42bc-be35-06568b9a1da7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities\Buildings">
+      <UniqueIdentifier>{81c978e5-89fa-4f1c-9c4b-9ac59ed3a97d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\WindowManager.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameManager.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\MapManager.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DrawManager.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\TileObject.cpp">
+      <Filter>Source Files\Engine\Core Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DrawObject.cpp">
+      <Filter>Source Files\Engine\Core Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\LogicManager.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\LogicObject.cpp">
+      <Filter>Source Files\Engine\Core Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\PlayerChair.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\GrainPile.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\CorpsePile.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\PlainTiles.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Cursor.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Farm.cpp">
+      <Filter>Source Files\Entities\Buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Wall.cpp">
+      <Filter>Source Files\Entities\Buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Bait.cpp">
+      <Filter>Source Files\Entities\Buildings</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\EnemyObject.cpp">
+      <Filter>Source Files\Engine\Core Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\EnemyManager.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\EnemySpawner.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Enemy.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Bullet.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Turret.cpp">
+      <Filter>Source Files\Entities\Buildings</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine\WindowManager.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameManager.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\MapManager.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DrawManager.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\TileObject.h">
+      <Filter>Header Files\Engine\Core Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DrawObject.h">
+      <Filter>Header Files\Engine\Core Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\LogicManager.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\LogicObject.h">
+      <Filter>Header Files\Engine\Core Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\PlayerChair.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\GrainPile.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\CorpsePile.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\PlainTiles.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Cursor.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Farm.h">
+      <Filter>Header Files\Entities\Buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Wall.h">
+      <Filter>Header Files\Entities\Buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Bait.h">
+      <Filter>Header Files\Entities\Buildings</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\EnemyObject.h">
+      <Filter>Header Files\Engine\Core Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\EnemyManager.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Enemy.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\EnemySpawner.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Bullet.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Turret.h">
+      <Filter>Header Files\Entities\Buildings</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
