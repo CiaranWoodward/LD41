@@ -38,6 +38,8 @@ private:
 	uint32_t score;
 
 	sf::Vector2f mVelocity;
+	sf::Vector2f mRecoil;
+	float mRecoilMag;
 	float mSpeed;
 	float mMaxSpeed;
 	float mAccel;

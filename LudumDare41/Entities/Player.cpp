@@ -49,6 +49,9 @@ bool Player::Update(sf::Time dt)
 	HandleKeyboardInput(dt);
 	HandleMouseInput(dt);
 
+	mSprite.move(mVelocity * dt.asSeconds());
+	mDrawObject.SetDrawLevel(mSprite.getPosition().y - 5);
+
 	mGameManager.GetWindowManager().SetDrawFocus(mSprite.getPosition());
 
 	return true;
@@ -109,10 +112,16 @@ void Player::HandleMouseInput(sf::Time dt)
 
 			mCooldown = sf::Time::Zero;
 
+			mRecoil = sf::Vector2f(shootDir.x, shootDir.y/2.f);
+			mRecoilMag = 50.f;
 			new CornBullet(mGameManager, gunCoords, gunSpeed, shootDir);
 			mCooldown = sf::seconds(0.1f);
 		}
 	}
+
+	mVelocity -= mRecoil * mRecoilMag;
+	mRecoilMag -= mRecoilMag * 20.f * dt.asSeconds();
+	if (mRecoilMag < 0) mRecoilMag = 0;
 }
 
 void Player::HandleKeyboardInput(sf::Time dt)
@@ -150,7 +159,4 @@ void Player::HandleKeyboardInput(sf::Time dt)
 	if (mSpeed > mMaxSpeed) mSpeed = mMaxSpeed;
 	if (mSpeed < 0) mSpeed = 0.f;
 	mVelocity = dir * mSpeed;
-
-	mSprite.move(mVelocity * dt.asSeconds());
-	mDrawObject.SetDrawLevel(mSprite.getPosition().y - 5);
 }
