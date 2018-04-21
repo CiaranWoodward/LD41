@@ -4,10 +4,11 @@
 
 const float ParticleHelper::kGravity = 100.f;
 
-ParticleHelper::ParticleHelper(sf::Vector3f aStartPos, sf::Vector3f aStartVelocity, float aBounceFactor, float aAirResFactor) :
+ParticleHelper::ParticleHelper(sf::Vector3f aStartPos, sf::Vector3f aStartVelocity, float aBounceFactor, float aFrictionFactor, float aAirResFactor) :
 	mCoords(aStartPos),
 	mVelocity(aStartVelocity),
 	mBounceFactor(aBounceFactor),
+	mFrictionFactor(aFrictionFactor),
 	mAirResFactor(aAirResFactor)
 {
 	assert(aBounceFactor > 0);
@@ -20,7 +21,7 @@ ParticleHelper::~ParticleHelper()
 
 sf::Vector3f ParticleHelper::GetNewCoords(sf::Time dt)
 {
-	//Apply verlocity
+	//Apply velocity
 	mCoords = mCoords + (mVelocity * dt.asSeconds());
 
 	//Apply bounce
@@ -28,6 +29,7 @@ sf::Vector3f ParticleHelper::GetNewCoords(sf::Time dt)
 	{
 		mVelocity.z = -mVelocity.z * mBounceFactor;
 		mCoords.z = -mCoords.z * mBounceFactor;
+		mVelocity = mVelocity * mFrictionFactor;
 	}
 
 	//Apply air resistance
