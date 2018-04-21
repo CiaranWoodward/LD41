@@ -7,7 +7,7 @@ class Bullet :
 	public LogicObject
 {
 public:
-	Bullet(GameManager &aGameManager, sf::Vector3f aStartPoint);
+	Bullet(GameManager &aGameManager, sf::Vector3f aStartPoint, sf::Vector3f aBaseVelocity);
 	~Bullet();
 
 	bool Update(sf::Time dt) override;

@@ -14,6 +14,8 @@ public:
 
 	bool Update(sf::Time dt) override;
 
+	void HandleKeyboardInput(sf::Time dt);
+
 private:
 	GameManager &mGameManager;
 
@@ -27,6 +29,11 @@ private:
 
 	bool isGameOver;
 	uint32_t score;
+
+	sf::Vector2f mVelocity;
+	float mSpeed;
+	float mMaxSpeed;
+	float mAccel;
 
 	DrawObject mDrawObject;
 	DrawObject mDrawTextObject;

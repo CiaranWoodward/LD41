@@ -1,5 +1,9 @@
+#include <cstdlib>
+
 #include "Player.h"
 #include "Bullet.h"
+
+#include "SFML\Window\Keyboard.hpp"
 
 
 Player::Player(GameManager &aGameManager) :
@@ -9,6 +13,10 @@ Player::Player(GameManager &aGameManager) :
 	mTextMessage("", mGameManager.GetDrawManager().GetGlobalFont(), 20),
 	mCooldown(sf::Time::Zero),
 	mTextCooldown(sf::seconds(5.f)),
+	mVelocity(),
+	mSpeed(0.f),
+	mMaxSpeed(300.f),
+	mAccel(1600.f),
 	mDrawObject(mGameManager.GetDrawManager(), mSprite, 0),
 	mTextCounter(0),
 	mDrawTextObject(mGameManager.GetDrawManager(), mTextMessage, INT32_MAX)
@@ -31,6 +39,8 @@ Player::~Player()
 
 bool Player::Update(sf::Time dt)
 {
+	HandleKeyboardInput(dt);
+
 	mGameManager.GetWindowManager().SetDrawFocus(mSprite.getPosition());
 	
 	if (mCooldown > sf::Time::Zero)
@@ -39,12 +49,52 @@ bool Player::Update(sf::Time dt)
 	}
 	else
 	{
-		sf::Vector3f mGunCoords = MapManager::GetFloorCoords(mSprite.getPosition());
-		mGunCoords.z += 50;
+		sf::Vector3f mGunCoords = MapManager::GetFloorCoords(mSprite.getPosition() - sf::Vector2f(0.f, 5.f));
+		sf::Vector3f mGunSpeed(mVelocity.x, mVelocity.y * 2, 0.f);
+		mGunCoords.z += 44;
 		mCooldown = sf::Time::Zero;
-		new Bullet(mGameManager, mGunCoords);
+		new Bullet(mGameManager, mGunCoords, mGunSpeed);
 		mCooldown = sf::seconds(0.2f);
 	}
 
 	return true;
+}
+
+void Player::HandleKeyboardInput(sf::Time dt)
+{
+	sf::Vector2f dir;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
+		dir.y -= 1.f;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		dir.x -= 1.f;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		dir.y += 1.f;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		dir.x += 1.f;
+	}
+
+	//Normalize direction
+	float mag = std::sqrtf(dir.x * dir.x + dir.y * dir.y);
+	if (mag > 0)
+	{
+		dir = (dir / mag);
+		dir.y /= 2; //correct y movement for dimetric projection
+		mSpeed += mAccel * dt.asSeconds();
+	}
+	else
+	{
+		mSpeed -= mAccel * dt.asSeconds();
+	}
+	if (mSpeed > mMaxSpeed) mSpeed = mMaxSpeed;
+	if (mSpeed < 0) mSpeed = 0.f;
+	mVelocity = dir * mSpeed;
+
+	mSprite.move(mVelocity * dt.asSeconds());
 }
