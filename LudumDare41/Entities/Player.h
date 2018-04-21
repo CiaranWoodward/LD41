@@ -22,6 +22,7 @@ private:
 	GameManager &mGameManager;
 	Crosshair &mCrosshair;
 
+	const sf::IntRect mTextCoordsUp, mTextCoordsRight, mTextCoordsDown, mTextCoordsLeft;
 	sf::Sprite mSprite;
 	sf::Text mTextMessage;
 

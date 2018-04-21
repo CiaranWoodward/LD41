@@ -10,6 +10,10 @@ Player::Player(GameManager &aGameManager, Crosshair &aCrosshair) :
 	LogicObject(aGameManager.GetLogicManager()),
 	mGameManager(aGameManager),
 	mCrosshair(aCrosshair),
+	mTextCoordsUp(0, 81*3, 53, 81),
+	mTextCoordsDown(0, 81, 53, 81),
+	mTextCoordsLeft(0, 81*2, 53, 81),
+	mTextCoordsRight(0, 0, 53, 81),
 	mSprite(),
 	mTextMessage("", mGameManager.GetDrawManager().GetGlobalFont(), 20),
 	mCooldown(sf::Time::Zero),
@@ -43,6 +47,25 @@ bool Player::Update(sf::Time dt)
 	HandleKeyboardInput(dt);
 
 	mGameManager.GetWindowManager().SetDrawFocus(mSprite.getPosition());
+
+	sf::Vector3f gunCoords = MapManager::GetFloorCoords(mSprite.getPosition() - sf::Vector2f(0.f, 5.f));
+	gunCoords.z += 44;
+	sf::Vector3f shootDir = mCrosshair.GetTarget() - gunCoords;
+
+	if (abs(shootDir.x) > abs(shootDir.y))
+	{
+		if (shootDir.x > 0)
+			mSprite.setTextureRect(mTextCoordsRight);
+		else
+			mSprite.setTextureRect(mTextCoordsLeft);
+	}
+	else
+	{
+		if (shootDir.y > 0)
+			mSprite.setTextureRect(mTextCoordsDown);
+		else
+			mSprite.setTextureRect(mTextCoordsUp);
+	}
 	
 	if (mCooldown > sf::Time::Zero)
 	{
@@ -50,19 +73,18 @@ bool Player::Update(sf::Time dt)
 	}
 	else
 	{
-		sf::Vector3f gunCoords = MapManager::GetFloorCoords(mSprite.getPosition() - sf::Vector2f(0.f, 5.f));
-		gunCoords.z += 44;
 		sf::Vector3f gunSpeed(mVelocity.x, mVelocity.y * 2, 0.f);
-		sf::Vector3f shootDir = mCrosshair.GetTarget() - gunCoords;
+		
 		float mag = std::sqrtf(shootDir.x * shootDir.x + shootDir.y * shootDir.y + shootDir.z * shootDir.z);
-		if (mag <= 0) return true;
+		if (mag > 0)
+		{
+			shootDir = shootDir / mag;
 
-		shootDir = shootDir / mag;
+			mCooldown = sf::Time::Zero;
 
-		mCooldown = sf::Time::Zero;
-
-		new Bullet(mGameManager, gunCoords, gunSpeed, shootDir);
-		mCooldown = sf::seconds(0.1f);
+			new Bullet(mGameManager, gunCoords, gunSpeed, shootDir);
+			mCooldown = sf::seconds(0.1f);
+		}
 	}
 
 	return true;
