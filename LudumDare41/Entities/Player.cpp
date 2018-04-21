@@ -1,9 +1,10 @@
 #include <cstdlib>
 
 #include "Player.h"
-#include "Bullet.h"
+#include "CornBullet.h"
 
 #include "SFML\Window\Keyboard.hpp"
+#include "SFML\Window\Mouse.hpp"
 
 
 Player::Player(GameManager &aGameManager, Crosshair &aCrosshair) :
@@ -17,6 +18,7 @@ Player::Player(GameManager &aGameManager, Crosshair &aCrosshair) :
 	mSprite(),
 	mTextMessage("", mGameManager.GetDrawManager().GetGlobalFont(), 20),
 	mCooldown(sf::Time::Zero),
+	mTriggerLastState(false),
 	mTextCooldown(sf::seconds(5.f)),
 	mVelocity(),
 	mSpeed(0.f),
@@ -45,9 +47,16 @@ Player::~Player()
 bool Player::Update(sf::Time dt)
 {
 	HandleKeyboardInput(dt);
+	HandleMouseInput(dt);
 
 	mGameManager.GetWindowManager().SetDrawFocus(mSprite.getPosition());
 
+	return true;
+}
+
+void Player::HandleMouseInput(sf::Time dt)
+{
+	bool shoot = false;
 	sf::Vector3f gunCoords = MapManager::GetFloorCoords(mSprite.getPosition() - sf::Vector2f(0.f, 5.f));
 	gunCoords.z += 44;
 	sf::Vector3f shootDir = mCrosshair.GetTarget() - gunCoords;
@@ -66,15 +75,33 @@ bool Player::Update(sf::Time dt)
 		else
 			mSprite.setTextureRect(mTextCoordsUp);
 	}
-	
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
+		if (!mTriggerLastState)
+		{
+			mTriggerLastState = true;
+			//Shoot single shot weapons
+		}
+
+		if (true) //automatic weapons
+		{
+			shoot = true;
+		}
+	}
+	else
+	{
+		mTriggerLastState = false;
+	}
+
 	if (mCooldown > sf::Time::Zero)
 	{
 		mCooldown -= dt;
 	}
-	else
+	else if (shoot)
 	{
 		sf::Vector3f gunSpeed(mVelocity.x, mVelocity.y * 2, 0.f);
-		
+
 		float mag = std::sqrtf(shootDir.x * shootDir.x + shootDir.y * shootDir.y + shootDir.z * shootDir.z);
 		if (mag > 0)
 		{
@@ -82,12 +109,10 @@ bool Player::Update(sf::Time dt)
 
 			mCooldown = sf::Time::Zero;
 
-			new Bullet(mGameManager, gunCoords, gunSpeed, shootDir);
+			new CornBullet(mGameManager, gunCoords, gunSpeed, shootDir);
 			mCooldown = sf::seconds(0.1f);
 		}
 	}
-
-	return true;
 }
 
 void Player::HandleKeyboardInput(sf::Time dt)

@@ -16,6 +16,8 @@ public:
 
 	bool Update(sf::Time dt) override;
 
+	void HandleMouseInput(sf::Time dt);
+
 	void HandleKeyboardInput(sf::Time dt);
 
 private:
@@ -27,6 +29,7 @@ private:
 	sf::Text mTextMessage;
 
 	sf::Time mCooldown;
+	bool mTriggerLastState;
 	sf::Time mTextCooldown;
 
 	int mTextCounter;

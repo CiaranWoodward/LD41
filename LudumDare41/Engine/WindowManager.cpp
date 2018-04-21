@@ -46,6 +46,9 @@ bool WindowManager::Update()
 		if (event.type == sf::Event::Closed)
 			mWindow.close();
 
+		if (event.type == sf::Event::MouseButtonPressed)
+			void;
+
 		if (event.type == sf::Event::MouseButtonReleased)
 			void;
 

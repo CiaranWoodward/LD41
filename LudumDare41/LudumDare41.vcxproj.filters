@@ -81,10 +81,10 @@
     <ClCompile Include="ParticleHelper.cpp">
       <Filter>Source Files\Engine\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="Entities\Bullet.cpp">
+    <ClCompile Include="Entities\Crosshair.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Entities\Crosshair.cpp">
+    <ClCompile Include="Entities\CornBullet.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
   </ItemGroup>
@@ -128,10 +128,10 @@
     <ClInclude Include="ParticleHelper.h">
       <Filter>Header Files\Engine\Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Entities\Bullet.h">
+    <ClInclude Include="Entities\Crosshair.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Entities\Crosshair.h">
+    <ClInclude Include="Entities\CornBullet.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>

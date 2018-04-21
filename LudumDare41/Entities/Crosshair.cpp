@@ -1,8 +1,6 @@
 #include "Crosshair.h"
 #include "SFML\Window\Mouse.hpp"
 
-
-
 Crosshair::Crosshair(GameManager &aGameManager) :
 	LogicObject(aGameManager.GetLogicManager()),
 	mGameManager(aGameManager),
