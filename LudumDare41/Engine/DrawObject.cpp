@@ -17,5 +17,4 @@ DrawObject::~DrawObject()
 void DrawObject::SetDrawLevel(int32_t aDrawLevel) 
 {
 	mDrawLevel = aDrawLevel; 
-	mDrawManager.Refresh(); 
 }

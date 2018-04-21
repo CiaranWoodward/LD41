@@ -49,6 +49,9 @@ public:
 	static sf::Vector2f GetTileDrawOrigin(const sf::Vector2<uint32_t> &aTileCoord);
 	static sf::Vector2f GetTileDrawCenter(const sf::Vector2<uint32_t> &aTileCoord);
 
+	static sf::Vector2f GetProjectedCoords(sf::Vector3f a3dPos) { return sf::Vector2f(a3dPos.x, (a3dPos.y / 2) - a3dPos.z); }
+	static sf::Vector3f GetFloorCoords(sf::Vector2f aWorldCoords) { return sf::Vector3f(aWorldCoords.x, aWorldCoords.y * 2, 0.f); }
+
 private:
 	void CastSmells(uint32_t x, uint32_t y, int32_t aKeenFactor);
 	Tile mTiles[kMaxX][kMaxY];

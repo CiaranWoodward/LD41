@@ -1,5 +1,5 @@
 #include "Player.h"
-
+#include "Bullet.h"
 
 
 Player::Player(GameManager &aGameManager) :
@@ -32,6 +32,19 @@ Player::~Player()
 bool Player::Update(sf::Time dt)
 {
 	mGameManager.GetWindowManager().SetDrawFocus(mSprite.getPosition());
+	
+	if (mCooldown > sf::Time::Zero)
+	{
+		mCooldown -= dt;
+	}
+	else
+	{
+		sf::Vector3f mGunCoords = MapManager::GetFloorCoords(mSprite.getPosition());
+		mGunCoords.z += 50;
+		mCooldown = sf::Time::Zero;
+		new Bullet(mGameManager, mGunCoords);
+		mCooldown = sf::seconds(0.2f);
+	}
 
 	return true;
 }
