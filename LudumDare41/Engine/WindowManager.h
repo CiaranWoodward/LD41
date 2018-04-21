@@ -9,6 +9,8 @@ public:
 	WindowManager(GameManager &aGameManager);
 	~WindowManager();
 
+	void SetDrawFocus(sf::Vector2f center);
+
 	//Returns false if close is requested
 	bool Update();
 

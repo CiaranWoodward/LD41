@@ -6,14 +6,7 @@
 #include "GameManager.h"
 #include "DrawObject.h"
 
-#include "../Entities/PlainTiles.h"
-#include "../Entities/PlayerChair.h"
-#include "../Entities/GrainPile.h"
-#include "../Entities/CorpsePile.h"
-#include "../Entities/Wall.h"
-#include "../Entities/Farm.h"
-#include "../Entities/Cursor.h"
-#include "../Entities/EnemySpawner.h"
+#include "../Entities/Player.h"
 
 GameManager::GameManager() :
 	mDrawManager(),
@@ -30,13 +23,14 @@ GameManager::GameManager() :
 
 GameManager::~GameManager()
 {
-	delete mCursor;
+	
 }
 
 int GameManager::run()
 {
 	bool run = true;
 	
+	new Player(*this);
 	
 	while (run)
 	{

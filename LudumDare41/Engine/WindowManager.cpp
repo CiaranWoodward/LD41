@@ -1,6 +1,5 @@
 #include "WindowManager.h"
 #include "MapManager.h"
-#include "../Entities/Cursor.h"
 
 WindowManager::WindowManager(GameManager &aGameManager) :
 	mWindow(sf::VideoMode(1280, 720), "Ludum Dare 41"),
@@ -26,6 +25,13 @@ WindowManager::~WindowManager()
 {
 }
 
+void WindowManager::SetDrawFocus(sf::Vector2f center)
+{
+	sf::Vector2f dimens(1280.f, 720.f);
+
+	mView = sf::View(center, dimens);
+}
+
 bool WindowManager::Update()
 {
 	if (!mWindow.isOpen()) return false;
@@ -37,7 +43,7 @@ bool WindowManager::Update()
 			mWindow.close();
 
 		if (event.type == sf::Event::MouseButtonReleased)
-			mGameManager.GetCursor().HandleMouseEvent(event);
+			void;
 
 	}
 

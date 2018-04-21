@@ -39,8 +39,8 @@ public:
 
 	bool Update();
 
-	static const size_t kMaxX = 50;
-	static const size_t kMaxY = 50;
+	static const size_t kMaxX = 100;
+	static const size_t kMaxY = 100;
 
 	static const int32_t kTileWidth = 26;
 	static const int32_t kTileHeight = 13;

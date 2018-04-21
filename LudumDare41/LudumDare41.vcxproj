@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1FE30F23-8DC1-4AB7-ACF8-57B484E6D556}</ProjectGuid>
-    <RootNamespace>LudumDare40</RootNamespace>
+    <RootNamespace>LudumDare41</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
     <ProjectName>LudumDare41</ProjectName>
   </PropertyGroup>
@@ -131,18 +131,7 @@
     <ClCompile Include="Engine\DrawObject.cpp" />
     <ClCompile Include="Engine\TileObject.cpp" />
     <ClCompile Include="Engine\WindowManager.cpp" />
-    <ClCompile Include="Entities\Bait.cpp" />
-    <ClCompile Include="Entities\Bullet.cpp" />
-    <ClCompile Include="Entities\CorpsePile.cpp" />
-    <ClCompile Include="Entities\Cursor.cpp" />
-    <ClCompile Include="Entities\Enemy.cpp" />
-    <ClCompile Include="Entities\EnemySpawner.cpp" />
-    <ClCompile Include="Entities\Farm.cpp" />
-    <ClCompile Include="Entities\GrainPile.cpp" />
-    <ClCompile Include="Entities\PlainTiles.cpp" />
-    <ClCompile Include="Entities\PlayerChair.cpp" />
-    <ClCompile Include="Entities\Turret.cpp" />
-    <ClCompile Include="Entities\Wall.cpp" />
+	<ClCompile Include="Entities\Player.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -156,18 +145,7 @@
     <ClInclude Include="Engine\MapManager.h" />
     <ClInclude Include="Engine\TileObject.h" />
     <ClInclude Include="Engine\WindowManager.h" />
-    <ClInclude Include="Entities\Bait.h" />
-    <ClInclude Include="Entities\Bullet.h" />
-    <ClInclude Include="Entities\CorpsePile.h" />
-    <ClInclude Include="Entities\Cursor.h" />
-    <ClInclude Include="Entities\Enemy.h" />
-    <ClInclude Include="Entities\EnemySpawner.h" />
-    <ClInclude Include="Entities\Farm.h" />
-    <ClInclude Include="Entities\GrainPile.h" />
-    <ClInclude Include="Entities\PlainTiles.h" />
-    <ClInclude Include="Entities\PlayerChair.h" />
-    <ClInclude Include="Entities\Turret.h" />
-    <ClInclude Include="Entities\Wall.h" />
+	<ClInclude Include="Entities\Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
