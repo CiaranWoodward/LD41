@@ -6,7 +6,9 @@
 #include "MapManager.h"
 #include "EnemyManager.h"
 
+
 class Cursor;
+class Player;
 
 class GameManager
 {

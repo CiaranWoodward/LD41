@@ -56,7 +56,7 @@ bool DeathFarm::Update(sf::Time dt)
 	{
 		mSprite.setTextureRect(sf::IntRect(216 + 54 * 3, 243, 54, 53));
 	}
-	else if (mTimeout > sf::seconds(-10.f))
+	else if (mTimeout > sf::seconds(-20.f))
 	{
 		mSprite.setTextureRect(sf::IntRect(216 + 54 * 4, 243, 54, 53));
 	}

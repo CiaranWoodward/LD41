@@ -90,8 +90,12 @@ bool BloodSplatter::Update(sf::Time dt)
 	if (mTimeout <= sf::Time::Zero)
 	{
 		EnemyObject *eo = mGameManager.GetEnemyManager().GetClosestEnemy(mSprite.getPosition());
-		if(eo != NULL)
-			eo->Damage(-0.2f, mParticleHelper.GetCoords(), sf::Vector3f());
+		if (eo != NULL)
+		{
+			float dist = eo->DistanceTo(mSprite.getPosition());
+			if(dist < 30.f)
+				eo->Damage(-0.3f, mParticleHelper.GetCoords(), sf::Vector3f());
+		}
 		return false;
 	}
 
