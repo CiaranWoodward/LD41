@@ -14,7 +14,7 @@ bool EnemyManager::Update()
 {
 	for (EnemyObject *&eo : mEnemyObjects)
 	{
-		if (eo->Damage(0))
+		if (eo->isDead())
 		{
 			eo = NULL;
 			mCorpseCounter++;
@@ -53,10 +53,12 @@ bool EnemyManager::Update()
 	return true;
 }
 
-EnemyObject *EnemyManager::GetHitEnemy(sf::Vector2f aWorldCoord)
+EnemyObject *EnemyManager::GetHitEnemy(sf::Vector2f aWorldCoord, float aHeight)
 {
 	for (EnemyObject *&eo : mEnemyObjects)
 	{
+		if (aHeight > eo->GetHeight())
+			continue;
 		float hrs = eo->GetHitRadiusSquared();
 		if (eo->DistanceSquaredTo(aWorldCoord) < hrs)
 			return eo;
@@ -71,7 +73,7 @@ EnemyObject *EnemyManager::GetClosestEnemy(sf::Vector2f aWorldCoord)
 
 	for (EnemyObject *eo : mEnemyObjects)
 	{
-		if (eo == NULL || eo->Damage(0)) continue;
+		if (eo == NULL || eo->isDead()) continue;
 		if (rval == NULL)
 		{
 			rval = eo;

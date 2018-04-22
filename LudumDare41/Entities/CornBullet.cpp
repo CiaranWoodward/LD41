@@ -46,7 +46,7 @@ bool CornBullet::Update(sf::Time dt)
 		mSprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(mTimeout.asSeconds() * 127.f)));
 		mShadowSprite.setColor(sf::Color::Transparent);
 	}
-	if (mTimeout < sf::Time::Zero)
+	if (mTimeout <= sf::Time::Zero)
 	{
 		return false;
 	}
@@ -62,11 +62,20 @@ void CornBullet::HandleDamage(sf::Time dt)
 	sf::Vector3f pos = mParticleHelper.GetCoords();
 	float speed = sqrt(vel.x * vel.x + vel.y * vel.y + vel.z * vel.z);
 
-	EnemyObject *eo = mGameManager.GetEnemyManager().GetHitEnemy(sf::Vector2f(pos.x, pos.y / 2));
+	EnemyObject *eo = mGameManager.GetEnemyManager().GetHitEnemy(sf::Vector2f(pos.x, pos.y / 2), pos.z);
 	if (eo == NULL) return;
 
+	float damage = speed * 0.01f;
 	//TODO: Vector arithmetic to find collision point... maybe
-	mParticleHelper.vertBounce();
+	if (eo->EvalDamage(damage, pos) < 0.02f)
+	{
+		mParticleHelper.vertBounce();
+	}
+	else
+	{
+		eo->Damage(damage, pos, vel);
+		mTimeout = sf::Time::Zero;
+	}
 }
 
 sf::Vector3f CornBullet::GetRandomScatter(float scatterval)

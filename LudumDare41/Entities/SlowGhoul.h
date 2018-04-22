@@ -2,17 +2,22 @@
 #include "../Engine/LogicObject.h"
 #include "../Engine/EnemyObject.h"
 #include "../Engine/GameManager.h"
+#include "../DamageTaker.h"
 
 #include "Player.h"
 
 class SlowGhoul :
-	public LogicObject
+	public LogicObject, DamageTaker
 {
 public:
 	SlowGhoul(GameManager &aGameManager, Player &aPlayer);
 	~SlowGhoul();
 
 	bool Update(sf::Time dt) override;
+
+	float EvaluateDamage(float aDamage, sf::Vector3f aImpactPoint) override;
+	bool TakeDamage(float aDamage, sf::Vector3f aImpactPoint, sf::Vector3f aVelocity) override;
+	bool isDead() override { return mHealth < 0; }
 
 private:
 	GameManager &mGameManager;
@@ -29,6 +34,7 @@ private:
 	float mSpeed;
 	float mMaxSpeed;
 	float mAccel;
+	float mHealth;
 
 	Player &mPlayer;
 	EnemyObject mEnemyObject;

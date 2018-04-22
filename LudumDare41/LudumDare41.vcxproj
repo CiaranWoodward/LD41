@@ -139,6 +139,7 @@
     <ClCompile Include="ParticleHelper.cpp" />
     <ClCompile Include="ScreenBumper.cpp" />
     <ClCompile Include="Entities\SlowGhoul.cpp" />
+    <ClCompile Include="VectorTools.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\DrawManager.h" />
@@ -158,6 +159,7 @@
     <ClInclude Include="ParticleHelper.h" />
     <ClInclude Include="ScreenBumper.h" />
     <ClInclude Include="Entities\SlowGhoul.h" />
+    <ClInclude Include="VectorTools.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

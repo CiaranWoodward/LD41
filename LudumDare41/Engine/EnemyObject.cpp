@@ -5,23 +5,19 @@
 
 
 
-EnemyObject::EnemyObject(GameManager &aGameManager, sf::Vector2f &aWorldCoords, float aHitRadius, float aMass) :
+EnemyObject::EnemyObject(GameManager &aGameManager, DamageTaker &aDamageTaker, sf::Vector2f &aWorldCoords, float aHitRadius, float aMass, float aHeight) :
 	mGameManager(aGameManager),
+	mDamageTaker(aDamageTaker),
 	mWorldCoords(aWorldCoords),
 	mHitRadius2(aHitRadius * aHitRadius),
-	mMass(aMass)
+	mMass(aMass),
+	mHeight(aHeight)
 {
 	aGameManager.GetEnemyManager().Add(*this);
 }
 
-
 EnemyObject::~EnemyObject()
 {
-}
-
-bool EnemyObject::Damage(int32_t damage)
-{
-	return (false);
 }
 
 float EnemyObject::DistanceTo(sf::Vector2f aWorldCoords)

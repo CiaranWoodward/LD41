@@ -18,3 +18,11 @@ float VectorTools::Normalize(sf::Vector2f & vec)
 		vec /= mag;
 	return mag;
 }
+
+float VectorTools::Normalize(sf::Vector3f & vec)
+{
+	float mag = std::sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+	if (mag != 0)
+		vec /= mag;
+	return mag;
+}
