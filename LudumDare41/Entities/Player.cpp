@@ -64,6 +64,9 @@ void Player::HandleMouseInput(sf::Time dt)
 	sf::Vector3f gunCoords = MapManager::GetFloorCoords(mSprite.getPosition() - sf::Vector2f(0.f, 5.f));
 	gunCoords.z += 44;
 	sf::Vector3f shootDir = mCrosshair.GetTarget() - gunCoords;
+	float mag = std::sqrtf(shootDir.x * shootDir.x + shootDir.y * shootDir.y + shootDir.z * shootDir.z);
+
+	mCrosshair.SetHeight(mag / 10.f);
 
 	if (abs(shootDir.x) > abs(shootDir.y))
 	{
@@ -108,7 +111,6 @@ void Player::HandleMouseInput(sf::Time dt)
 	{
 		sf::Vector3f gunSpeed(mVelocity.x, mVelocity.y * 2, 0.f);
 
-		float mag = std::sqrtf(shootDir.x * shootDir.x + shootDir.y * shootDir.y + shootDir.z * shootDir.z);
 		if (mag > 0)
 		{
 			shootDir = shootDir / mag;

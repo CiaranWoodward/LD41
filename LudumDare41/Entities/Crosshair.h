@@ -12,6 +12,8 @@ public:
 
 	bool Update(sf::Time dt) override;
 
+	void SetHeight(float height);
+
 	sf::Vector3f GetTarget();
 
 private:
@@ -19,5 +21,6 @@ private:
 
 	sf::Sprite mSprite;
 	DrawObject mDrawObject;
+	float mHeight;
 };
 

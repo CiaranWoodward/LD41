@@ -8,8 +8,7 @@ Crosshair::Crosshair(GameManager &aGameManager) :
 	mDrawObject(mGameManager.GetDrawManager(), mSprite, 0)
 {
 	mSprite.setTexture(mGameManager.GetDrawManager().GetGlobalTexture());
-	mSprite.setTextureRect(sf::IntRect(63, 817, 9, 45));
-	mSprite.setOrigin(mSprite.getTextureRect().width / 2.f, 3);
+	SetHeight(50.f);
 }
 
 
@@ -23,15 +22,24 @@ bool Crosshair::Update(sf::Time dt)
 	sf::Vector2f worldCoords = mGameManager.GetWindowManager().GetWorldCoordsFromWindow(mousePos);
 
 	mSprite.setPosition(worldCoords);
-	mDrawObject.SetDrawLevel(worldCoords.y + 41);
+	mDrawObject.SetDrawLevel(worldCoords.y + static_cast<int>(mHeight));
 
 	return true;
 }
 
+void Crosshair::SetHeight(float aHeight)
+{
+	if (aHeight > 78.f) aHeight = 78.f;
+	if (aHeight < 0.f) aHeight = 0.f;
+	mHeight = aHeight;
+	mSprite.setTextureRect(sf::IntRect(63, 783, 9, mHeight + 2.f));
+	mSprite.setOrigin(mSprite.getTextureRect().width / 2.f, 2.f);
+}
+
 sf::Vector3f Crosshair::GetTarget()
 {
-	sf::Vector3f coords = MapManager::GetFloorCoords(mSprite.getPosition() + sf::Vector2f(0.f, 41.f));
-	coords += sf::Vector3f(0.f, 0.f, 41.f);
+	sf::Vector3f coords = MapManager::GetFloorCoords(mSprite.getPosition() + sf::Vector2f(0.f, mHeight));
+	coords += sf::Vector3f(0.f, 0.f, mHeight);
 
 	return coords;
 }
