@@ -9,7 +9,11 @@ DeathFarm::DeathFarm(GameManager & aGameManager, sf::Vector2f aCoord) :
 	mSprite(),
 	mDrawObject(mGameManager.GetDrawManager(), mSprite, 0),
 	mEnemyObject(mGameManager, *this, mCoords, 15.f, FLT_MAX, 30.f),
-	mTimeout(sf::seconds(20))
+	mTimeout(sf::seconds(20)),
+	mBestTime(mTimeout),
+	mDeathFade(sf::seconds(1)),
+	mDead(false),
+	mSufficient(false)
 {
 	mSprite.setTexture(mGameManager.GetDrawManager().GetGlobalTexture());
 	mSprite.setTextureRect(sf::IntRect(216, 243, 54, 53));
@@ -26,11 +30,19 @@ DeathFarm::~DeathFarm()
 bool DeathFarm::Update(sf::Time dt)
 {
 	if (mTimeout > sf::seconds(-11.f))
-		mTimeout -= dt;
-
-	if (mTimeout > sf::seconds(16.f))
 	{
-		mSprite.setTextureRect(sf::IntRect(216, 243, 54, 53));
+		if (mSufficient)
+			mTimeout -= dt;
+		else
+			mTimeout += dt;
+	}
+
+	if (mTimeout > sf::seconds(16.f) || mDead)
+	{
+		if(mBestTime.asSeconds() < 8.f)
+			mSprite.setTextureRect(sf::IntRect(216 + 54 * 5, 243, 54, 53));
+		else
+			mSprite.setTextureRect(sf::IntRect(216, 243, 54, 53));
 	}
 	else if (mTimeout > sf::seconds(12.f))
 	{
@@ -53,15 +65,38 @@ bool DeathFarm::Update(sf::Time dt)
 		mSprite.setTextureRect(sf::IntRect(216 + 54 * 5, 243, 54, 53));
 	}
 
+	if (mBestTime > mTimeout)
+		mBestTime = mTimeout;
+
+	if (mBestTime.asSeconds() < 8.f)
+		mSufficient = true;
+
+	if (mTimeout > sf::seconds(60))
+	{
+		mDead = true;
+	}
+
+	if (mDead)
+	{
+		mDeathFade -= dt;
+		float fade = mDeathFade.asSeconds();
+		if (fade < 0)
+			return false;
+		mSprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(fade * 255.f)));
+	}
+
 	return true;
 }
 
 float DeathFarm::EvaluateDamage(float aDamage, sf::Vector3f aImpactPoint)
 {
-	return 0.0f;
+	if(!mDead && !mSufficient)
+		return aDamage < 0.f ? aDamage : 0.f;
+	return 0.f;
 }
 
 bool DeathFarm::TakeDamage(float aDamage, sf::Vector3f aImpactPoint, sf::Vector3f aVelocity)
 {
-	return false;
+	mTimeout += sf::seconds(EvaluateDamage(aDamage, aImpactPoint) / 2.f);
+	return mDead;
 }

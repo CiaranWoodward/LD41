@@ -25,12 +25,16 @@ public:
 	uint32_t GetDifficulty() { return mCorpseTotal / 50; }
 	uint32_t GetGrainCount() { return mGrainCounter; }
 
+	Player &GetPlayer() { return *mPlayer; }
+
 private:
 	DrawManager mDrawManager;
 	WindowManager mWindowManager;
 	LogicManager mLogicManager;
 	MapManager mMapManager;
 	EnemyManager mEnemyManager;
+
+	Player * mPlayer;
 
 	uint32_t mCorpseTotal;
 	uint32_t mCorpseCounter;

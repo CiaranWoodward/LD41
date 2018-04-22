@@ -2,6 +2,7 @@
 
 #include "Player.h"
 #include "CornBullet.h"
+#include "BloodSplatter.h"
 
 #include "SFML\Window\Keyboard.hpp"
 #include "SFML\Window\Mouse.hpp"
@@ -136,6 +137,13 @@ void Player::HandleMouseInput(sf::Time dt)
 	else
 	{
 		mTriggerLastState = false;
+	}
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+	{
+		shoot = false;
+		new BloodSplatter(mGameManager, gunCoords, shootDir * 1000.f / mag);
+		new BloodSplatter(mGameManager, gunCoords, shootDir * 1000.f / mag);
 	}
 
 	if (mCooldown > sf::Time::Zero)

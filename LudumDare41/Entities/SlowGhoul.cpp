@@ -12,7 +12,7 @@ SlowGhoul::SlowGhoul(GameManager &aGameManager, Player &aPlayer) :
 	mTextCoords3(64 + 54 * 2, 253, 36, 67),
 	mSprite(),
 	mDrawObject(aGameManager.GetDrawManager(), mSprite, 0),
-	mAnimCooldown(sf::seconds((float) (rand() % 200) / 100.f)),
+	mAnimCooldown(sf::seconds((float) (rand() % 100) / 100.f)),
 	mDeathTimeout(sf::seconds(1.f)),
 	mWorldPos(),
 	mVelocity(),
@@ -82,19 +82,19 @@ void SlowGhoul::HandleAnimation(sf::Time dt)
 {
 	mAnimCooldown += dt;
 
-	if (mAnimCooldown.asSeconds() < 0.5f)
+	if (mAnimCooldown.asSeconds() < 0.25f)
+	{
+		mSprite.setTextureRect(mTextCoords1);
+	}
+	else if (mAnimCooldown.asSeconds() < 0.5f)
+	{
+		mSprite.setTextureRect(mTextCoords2);
+	}
+	else if (mAnimCooldown.asSeconds() < 0.75f)
 	{
 		mSprite.setTextureRect(mTextCoords1);
 	}
 	else if (mAnimCooldown.asSeconds() < 1.f)
-	{
-		mSprite.setTextureRect(mTextCoords2);
-	}
-	else if (mAnimCooldown.asSeconds() < 1.5f)
-	{
-		mSprite.setTextureRect(mTextCoords1);
-	}
-	else if (mAnimCooldown.asSeconds() < 2.f)
 	{
 		mSprite.setTextureRect(mTextCoords3);
 	}

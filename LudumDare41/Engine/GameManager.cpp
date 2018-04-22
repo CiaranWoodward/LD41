@@ -34,20 +34,20 @@ int GameManager::run()
 	bool run = true;
 	
 	new PlainTiles(*this);
-	Player * player = new Player(*this, *(new Crosshair(*this)));
+	mPlayer = new Player(*this, *(new Crosshair(*this)));
 
-	new SlowGhoul(*this, *player);
-	new SlowGhoul(*this, *player);
-	new SlowGhoul(*this, *player);
-	new SlowGhoul(*this, *player);
-	new SlowGhoul(*this, *player);
-	new SlowGhoul(*this, *player);
-	new SlowGhoul(*this, *player);
-	new SlowGhoul(*this, *player);
-	new SlowGhoul(*this, *player);
-	new SlowGhoul(*this, *player);
-	new SlowGhoul(*this, *player);
-	new SlowGhoul(*this, *player);
+	new SlowGhoul(*this, *mPlayer);
+	new SlowGhoul(*this, *mPlayer);
+	new SlowGhoul(*this, *mPlayer);
+	new SlowGhoul(*this, *mPlayer);
+	new SlowGhoul(*this, *mPlayer);
+	new SlowGhoul(*this, *mPlayer);
+	new SlowGhoul(*this, *mPlayer);
+	new SlowGhoul(*this, *mPlayer);
+	new SlowGhoul(*this, *mPlayer);
+	new SlowGhoul(*this, *mPlayer);
+	new SlowGhoul(*this, *mPlayer);
+	new SlowGhoul(*this, *mPlayer);
 	
 	while (run)
 	{

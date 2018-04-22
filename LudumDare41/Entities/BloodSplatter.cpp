@@ -1,4 +1,5 @@
 #include "BloodSplatter.h"
+#include "../Engine/EnemyManager.h"
 #include "../VectorTools.h"
 
 BloodSplatter::BloodSplatter(GameManager & aGameManager, sf::Vector3f aStartPoint, sf::Vector3f aDirection) :
@@ -88,6 +89,9 @@ bool BloodSplatter::Update(sf::Time dt)
 	}
 	if (mTimeout <= sf::Time::Zero)
 	{
+		EnemyObject *eo = mGameManager.GetEnemyManager().GetClosestEnemy(mSprite.getPosition());
+		if(eo != NULL)
+			eo->Damage(-0.2f, mParticleHelper.GetCoords(), sf::Vector3f());
 		return false;
 	}
 

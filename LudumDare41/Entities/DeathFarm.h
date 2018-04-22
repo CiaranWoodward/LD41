@@ -13,7 +13,7 @@ public:
 
 	float EvaluateDamage(float aDamage, sf::Vector3f aImpactPoint) override;
 	bool TakeDamage(float aDamage, sf::Vector3f aImpactPoint, sf::Vector3f aVelocity) override;
-	bool isDead() override { return false; }
+	bool isDead() override { return mDead; }
 
 private:
 	GameManager &mGameManager;
@@ -26,5 +26,9 @@ private:
 	EnemyObject mEnemyObject; //shhh... it works
 
 	sf::Time mTimeout;
+	sf::Time mBestTime;
+	sf::Time mDeathFade;
+	bool mDead;
+	bool mSufficient;
 };
 
