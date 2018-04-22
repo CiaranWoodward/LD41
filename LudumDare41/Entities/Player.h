@@ -4,6 +4,7 @@
 #include "../Engine/LogicObject.h"
 #include "../Engine/TileObject.h"
 #include "../Engine/DrawObject.h"
+#include "../ScreenBumper.h"
 
 #include "Crosshair.h"
 
@@ -46,5 +47,7 @@ private:
 
 	DrawObject mDrawObject;
 	DrawObject mDrawTextObject;
+
+	ScreenBumper *mScreenBumper;
 };
 

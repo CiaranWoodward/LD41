@@ -9,7 +9,8 @@ public:
 	WindowManager(GameManager &aGameManager);
 	~WindowManager();
 
-	void SetDrawFocus(sf::Vector2f center);
+	void SetDrawFocus(sf::Vector2f aCenter) { mFocusPoint = aCenter; }
+	void SetScreenBump(sf::Vector2f aBump) { mScreenBump = aBump;  }
 
 	//Returns false if close is requested
 	bool Update();
@@ -22,6 +23,9 @@ private:
 	sf::RenderWindow mWindow;
 	sf::View mView;
 	sf::Sprite mHUD;
+	sf::Vector2f mDimens;
+	sf::Vector2f mFocusPoint;
+	sf::Vector2f mScreenBump;
 
 	GameManager &mGameManager;
 };

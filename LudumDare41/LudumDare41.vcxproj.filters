@@ -37,6 +37,12 @@
     <Filter Include="Source Files\Engine\Helpers">
       <UniqueIdentifier>{e6d1bbe8-4765-41d3-aa7a-34cae86e64c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Tools">
+      <UniqueIdentifier>{ce69c6c0-8c5a-4b22-ba03-27989ccca60b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Tools">
+      <UniqueIdentifier>{fa8aeefe-55f1-4711-b2d4-2d138f270dcc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -87,6 +93,9 @@
     <ClCompile Include="Entities\CornBullet.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="ScreenBumper.cpp">
+      <Filter>Source Files\Engine\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WindowManager.h">
@@ -133,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="Entities\CornBullet.h">
       <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenBumper.h">
+      <Filter>Header Files\Engine\Tools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

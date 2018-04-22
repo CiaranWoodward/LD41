@@ -4,13 +4,13 @@
 WindowManager::WindowManager(GameManager &aGameManager) :
 	mWindow(sf::VideoMode(1280, 720), "Ludum Dare 41"),
 	mGameManager(aGameManager),
-	mHUD()
+	mHUD(),
+	mDimens(1280.f, 720.f),
+	mFocusPoint(),
+	mScreenBump()
 {
 	sf::Vector2f center = MapManager::GetTileDrawCenter(sf::Vector2<uint32_t>(MapManager::kMaxX/2, MapManager::kMaxY/2));
-	//sf::Vector2f dimens(640.f, 360.f);
-	sf::Vector2f dimens(1280.f, 720.f);
-	//sf::Vector2f dimens(960.f, 540.f);
-	mView = sf::View(center, dimens);
+	mView = sf::View(center, mDimens);
 	mWindow.setView(mView);
 	mWindow.setFramerateLimit(60);
 	mWindow.setMouseCursorVisible(false);
@@ -25,15 +25,6 @@ WindowManager::WindowManager(GameManager &aGameManager) :
 
 WindowManager::~WindowManager()
 {
-}
-
-void WindowManager::SetDrawFocus(sf::Vector2f center)
-{
-	sf::Vector2f dimens(1280.f, 720.f);
-	//sf::Vector2f dimens(640.f, 360.f);
-	//sf::Vector2f dimens(960.f, 540.f);
-
-	mView = sf::View(center, dimens);
 }
 
 bool WindowManager::Update()
@@ -54,7 +45,9 @@ bool WindowManager::Update()
 
 	}
 
-	mWindow.clear();
+	mView.setCenter(mFocusPoint + mScreenBump);
+
+	mWindow.clear(sf::Color(126, 75, 50));
 	mWindow.setView(mView);
 	mGameManager.GetDrawManager().DrawAll(mWindow);
 	mWindow.setView(mWindow.getDefaultView());
@@ -67,8 +60,5 @@ bool WindowManager::Update()
 
 sf::Vector2f WindowManager::GetWorldCoordsFromWindow(sf::Vector2i aWindowCoords)
 {
-	sf::Vector2f coords = mWindow.mapPixelToCoords(aWindowCoords);
-	//coords.y /= 2.f;
-
-	return coords;
+	return mWindow.mapPixelToCoords(aWindowCoords);
 }

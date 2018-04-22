@@ -26,7 +26,8 @@ Player::Player(GameManager &aGameManager, Crosshair &aCrosshair) :
 	mAccel(1600.f),
 	mDrawObject(mGameManager.GetDrawManager(), mSprite, 0),
 	mTextCounter(0),
-	mDrawTextObject(mGameManager.GetDrawManager(), mTextMessage, INT32_MAX)
+	mDrawTextObject(mGameManager.GetDrawManager(), mTextMessage, INT32_MAX),
+	mScreenBumper(new ScreenBumper(aGameManager))
 {
 	mSprite.setTexture(mGameManager.GetDrawManager().GetGlobalTexture());
 	mSprite.setTextureRect(sf::IntRect(0, 0, 53, 81));
@@ -79,6 +80,8 @@ void Player::HandleMouseInput(sf::Time dt)
 			mSprite.setTextureRect(mTextCoordsUp);
 	}
 
+	mScreenBumper->Pull(sf::Vector2f(shootDir.x, shootDir.y / 2.f) * 5.f);
+
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		if (!mTriggerLastState)
@@ -114,6 +117,7 @@ void Player::HandleMouseInput(sf::Time dt)
 
 			mRecoil = sf::Vector2f(shootDir.x, shootDir.y/2.f);
 			mRecoilMag = 50.f;
+			mScreenBumper->Bump(mRecoil * mRecoilMag);
 			new CornBullet(mGameManager, gunCoords, gunSpeed, shootDir);
 			//mCooldown = sf::seconds(0.1f);
 		}
