@@ -11,7 +11,7 @@ SlowGhoul::SlowGhoul(GameManager &aGameManager, Player &aPlayer) :
 	mTextCoords3(64 + 54 * 2, 253, 36, 67),
 	mSprite(),
 	mDrawObject(aGameManager.GetDrawManager(), mSprite, 0),
-	mAnimCooldown(sf::seconds(0.3f)),
+	mAnimCooldown(sf::seconds((float) (rand() % 200) / 100.f)),
 	mWorldPos(),
 	mVelocity(),
 	mRecoil(),
@@ -41,6 +41,7 @@ SlowGhoul::~SlowGhoul()
 bool SlowGhoul::Update(sf::Time dt)
 {
 	HandleChase(dt);
+	HandleAnimation(dt);
 	mVelocity -= mRecoil * mRecoilMag;
 	mRecoilMag -= mRecoilMag * 20.f * dt.asSeconds();
 	mWorldPos += mVelocity * dt.asSeconds();
@@ -48,6 +49,32 @@ bool SlowGhoul::Update(sf::Time dt)
 	mDrawObject.SetDrawLevel(mSprite.getPosition().y - 5);
 
 	return !isDead();
+}
+
+void SlowGhoul::HandleAnimation(sf::Time dt)
+{
+	mAnimCooldown += dt;
+
+	if (mAnimCooldown.asSeconds() < 0.5f)
+	{
+		mSprite.setTextureRect(mTextCoords1);
+	}
+	else if (mAnimCooldown.asSeconds() < 1.f)
+	{
+		mSprite.setTextureRect(mTextCoords2);
+	}
+	else if (mAnimCooldown.asSeconds() < 1.5f)
+	{
+		mSprite.setTextureRect(mTextCoords1);
+	}
+	else if (mAnimCooldown.asSeconds() < 2.f)
+	{
+		mSprite.setTextureRect(mTextCoords3);
+	}
+	else
+	{
+		mAnimCooldown = sf::Time::Zero;
+	}
 }
 
 float SlowGhoul::EvaluateDamage(float aDamage, sf::Vector3f aImpactPoint)
