@@ -1,6 +1,6 @@
 #include "SlowGhoul.h"
 #include "../VectorTools.h"
-
+#include "BloodSplatter.h"
 
 SlowGhoul::SlowGhoul(GameManager &aGameManager, Player &aPlayer) :
 	LogicObject(aGameManager.GetLogicManager()),
@@ -12,12 +12,13 @@ SlowGhoul::SlowGhoul(GameManager &aGameManager, Player &aPlayer) :
 	mSprite(),
 	mDrawObject(aGameManager.GetDrawManager(), mSprite, 0),
 	mAnimCooldown(sf::seconds((float) (rand() % 200) / 100.f)),
+	mDeathTimeout(sf::seconds(1.f)),
 	mWorldPos(),
 	mVelocity(),
 	mRecoil(),
 	mRecoilMag(),
 	mSpeed(),
-	mMaxSpeed(250.f),
+	mMaxSpeed(200.f),
 	mAccel(1600.f),
 	mHealth(100.f),
 	mPlayer(aPlayer),
@@ -40,15 +41,31 @@ SlowGhoul::~SlowGhoul()
 
 bool SlowGhoul::Update(sf::Time dt)
 {
+	if (isDead())
+	{
+		mDeathTimeout -= dt;
+		mSprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(mDeathTimeout.asSeconds() * 255.f)));
+		sf::Vector3f bloodpoint = MapManager::GetFloorCoords(mWorldPos);
+		bloodpoint.z += 15.f;
+		new BloodSplatter(mGameManager, bloodpoint, sf::Vector3f());
+		bloodpoint.z += 15.f;
+		new BloodSplatter(mGameManager, bloodpoint, sf::Vector3f());
+		bloodpoint.z += 15.f;
+		new BloodSplatter(mGameManager, bloodpoint, sf::Vector3f());
+		if (mDeathTimeout < sf::Time::Zero)
+			return false;
+		return true;
+	}
+
 	HandleChase(dt);
 	HandleAnimation(dt);
 	mVelocity -= mRecoil * mRecoilMag;
-	mRecoilMag -= mRecoilMag * 20.f * dt.asSeconds();
+	mRecoilMag -= mRecoilMag * 25.f * dt.asSeconds();
 	mWorldPos += mVelocity * dt.asSeconds();
 	mSprite.setPosition(mWorldPos);
 	mDrawObject.SetDrawLevel(mSprite.getPosition().y - 5);
 
-	return !isDead();
+	return true;
 }
 
 void SlowGhoul::HandleAnimation(sf::Time dt)
@@ -86,6 +103,10 @@ float SlowGhoul::EvaluateDamage(float aDamage, sf::Vector3f aImpactPoint)
 
 bool SlowGhoul::TakeDamage(float aDamage, sf::Vector3f aImpactPoint, sf::Vector3f aVelocity)
 {
+	new BloodSplatter(mGameManager, aImpactPoint, aVelocity);
+	new BloodSplatter(mGameManager, aImpactPoint, aVelocity);
+	new BloodSplatter(mGameManager, aImpactPoint, aVelocity);
+	new BloodSplatter(mGameManager, aImpactPoint, aVelocity);
 	mRecoilMag = VectorTools::Normalize(aVelocity);
 	mRecoilMag = aDamage * 80.f;
 	mRecoil = -sf::Vector2f(aVelocity.x, aVelocity.y/2.f);

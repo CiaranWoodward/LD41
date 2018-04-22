@@ -2,7 +2,7 @@
 
 #include "ParticleHelper.h"
 
-const float ParticleHelper::kGravity = 100.f;
+const float ParticleHelper::kGravity = 150.f;
 
 ParticleHelper::ParticleHelper(sf::Vector3f aStartPos, sf::Vector3f aStartVelocity, float aBounceFactor, float aFrictionFactor, float aAirResFactor) :
 	mCoords(aStartPos),

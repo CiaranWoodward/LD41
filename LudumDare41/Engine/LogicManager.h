@@ -16,6 +16,7 @@ protected:
 
 private:
 	std::vector<LogicObject*> mLogicObjects;
+	std::vector<LogicObject*> mToAddLogicObjects;
 	sf::Clock mClock;
 };
 

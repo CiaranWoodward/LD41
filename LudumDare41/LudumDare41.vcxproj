@@ -131,6 +131,7 @@
     <ClCompile Include="Engine\DrawObject.cpp" />
     <ClCompile Include="Engine\TileObject.cpp" />
     <ClCompile Include="Engine\WindowManager.cpp" />
+    <ClCompile Include="Entities\BloodSplatter.cpp" />
     <ClCompile Include="Entities\CornBullet.cpp" />
     <ClCompile Include="Entities\Crosshair.cpp" />
     <ClCompile Include="Entities\PlainTiles.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="Engine\MapManager.h" />
     <ClInclude Include="Engine\TileObject.h" />
     <ClInclude Include="Engine\WindowManager.h" />
+    <ClInclude Include="Entities\BloodSplatter.h" />
     <ClInclude Include="Entities\CornBullet.h" />
     <ClInclude Include="Entities\Crosshair.h" />
     <ClInclude Include="Entities\PlainTiles.h" />

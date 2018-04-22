@@ -26,6 +26,7 @@ void DrawManager::DrawAll(sf::RenderWindow &aWindow)
 	Refresh();
 	for (DrawObject *obj : mDrawObjects)
 	{
+		if (obj->GetInactive()) continue;
 		aWindow.draw(obj->GetSprite());
 	}
 }

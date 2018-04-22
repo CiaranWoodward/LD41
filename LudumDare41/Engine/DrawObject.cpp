@@ -4,7 +4,8 @@
 DrawObject::DrawObject(DrawManager &aDrawManager, sf::Drawable &aDrawable, int32_t aDrawLevel) :
 	mDrawManager(aDrawManager),
 	mDrawable(aDrawable),
-	mDrawLevel(aDrawLevel)
+	mDrawLevel(aDrawLevel),
+	mInactive(false)
 {
 	mDrawManager.Add(*this);
 }

@@ -15,11 +15,14 @@ public:
 
 	int32_t GetDrawLevel() const { return mDrawLevel; }
 	void SetDrawLevel(int32_t aDrawLevel);
+	void SetInactive(bool aInactive) { mInactive = aInactive; }
+	bool GetInactive() { return mInactive; }
 
 private:
 	DrawManager &mDrawManager;
 
 	sf::Drawable &mDrawable;
 	int32_t mDrawLevel;
+	bool mInactive;
 };
 

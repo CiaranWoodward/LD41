@@ -1,5 +1,6 @@
 #include "CornBullet.h"
 #include "../Engine/EnemyManager.h"
+#include "../VectorTools.h"
 
 CornBullet::CornBullet(GameManager & aGameManager, sf::Vector3f aStartPoint, sf::Vector3f aBaseVelocity, sf::Vector3f aDirection) :
 	LogicObject(aGameManager.GetLogicManager()),
@@ -8,7 +9,7 @@ CornBullet::CornBullet(GameManager & aGameManager, sf::Vector3f aStartPoint, sf:
 	mShadowSprite(),
 	mDrawObject(mGameManager.GetDrawManager(), mSprite, 0),
 	mShadowDrawObject(mGameManager.GetDrawManager(), mShadowSprite, 0),
-	mParticleHelper(aStartPoint, 800.f * aDirection + GetRandomScatter(40.f) + aBaseVelocity, 0.6f, 0.2f, 0.001f),
+	mParticleHelper(aStartPoint, 800.f * aDirection + VectorTools::GetRandomScatter(40.f) + aBaseVelocity, 0.6f, 0.2f, 0.001f),
 	mTimeout(sf::seconds(12))
 {
 	int randOffset = (std::rand() % 4) * 2;
@@ -37,9 +38,17 @@ bool CornBullet::Update(sf::Time dt)
 	
 	mSprite.setPosition(MapManager::GetProjectedCoords(newCoords));
 	mDrawObject.SetDrawLevel(static_cast<int32_t>(MapManager::GetProjectedCoords(newCoords).y + newCoords.z));
-	mShadowSprite.setPosition(MapManager::GetProjectedCoords(newCoords - sf::Vector3f(0.f, 0.f, newCoords.z)));
-	mShadowDrawObject.SetDrawLevel(static_cast<int32_t>(MapManager::GetProjectedCoords(newCoords).y - 1));
 
+	if (!mParticleHelper.IsDead())
+	{
+		mShadowSprite.setPosition(MapManager::GetProjectedCoords(newCoords - sf::Vector3f(0.f, 0.f, newCoords.z)));
+		mShadowDrawObject.SetDrawLevel(static_cast<int32_t>(MapManager::GetProjectedCoords(newCoords).y - 1));
+	}
+	else
+	{
+		mShadowDrawObject.SetDrawLevel(INT_MIN);
+		mShadowDrawObject.SetInactive(true);
+	}
 	mTimeout -= dt;
 	if (mTimeout < sf::seconds(2.f))
 	{
@@ -76,13 +85,4 @@ void CornBullet::HandleDamage(sf::Time dt)
 		eo->Damage(damage, pos, vel);
 		mTimeout = sf::Time::Zero;
 	}
-}
-
-sf::Vector3f CornBullet::GetRandomScatter(float scatterval)
-{
-	sf::Vector3f scatter;
-	scatter.x = -scatterval + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (2 * scatterval)));
-	scatter.y = -scatterval + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (2 * scatterval)));
-	scatter.z = -scatterval + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (2 * scatterval)));
-	return scatter;
 }

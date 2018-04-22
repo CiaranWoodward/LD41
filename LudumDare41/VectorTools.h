@@ -11,5 +11,6 @@ public:
 	//All normalize functions modify the passed vector and return the magnitude
 	static float Normalize(sf::Vector2f &vec);
 	static float Normalize(sf::Vector3f &vec);
+	static sf::Vector3f GetRandomScatter(float scatterval);
 };
 
