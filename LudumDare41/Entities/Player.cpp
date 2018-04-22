@@ -115,7 +115,7 @@ void Player::HandleMouseInput(sf::Time dt)
 			mRecoil = sf::Vector2f(shootDir.x, shootDir.y/2.f);
 			mRecoilMag = 50.f;
 			new CornBullet(mGameManager, gunCoords, gunSpeed, shootDir);
-			mCooldown = sf::seconds(0.1f);
+			//mCooldown = sf::seconds(0.1f);
 		}
 	}
 

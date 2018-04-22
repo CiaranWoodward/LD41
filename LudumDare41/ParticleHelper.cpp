@@ -9,7 +9,8 @@ ParticleHelper::ParticleHelper(sf::Vector3f aStartPos, sf::Vector3f aStartVeloci
 	mVelocity(aStartVelocity),
 	mBounceFactor(aBounceFactor),
 	mFrictionFactor(aFrictionFactor),
-	mAirResFactor(aAirResFactor)
+	mAirResFactor(aAirResFactor),
+	mDead(false)
 {
 	assert(aBounceFactor > 0);
 }
@@ -21,6 +22,7 @@ ParticleHelper::~ParticleHelper()
 
 sf::Vector3f ParticleHelper::GetNewCoords(sf::Time dt)
 {
+	if (mDead) return mCoords;
 	//Apply velocity
 	mCoords = mCoords + (mVelocity * dt.asSeconds());
 
@@ -45,6 +47,9 @@ sf::Vector3f ParticleHelper::GetNewCoords(sf::Time dt)
 
 	//Apply gravity
 	mVelocity.z -= kGravity * dt.asSeconds();
+
+	if (mCoords.z < 0.2f && vv.x < 0.2f && vv.y < 0.2f && vv.z < 0.2f)
+		mDead = true;
 
 	return mCoords;
 }

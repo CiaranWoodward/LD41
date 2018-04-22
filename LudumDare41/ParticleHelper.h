@@ -17,5 +17,7 @@ private:
 	float mFrictionFactor;
 	float mAirResFactor;
 
+	bool mDead;
+
 	static const float kGravity;
 };

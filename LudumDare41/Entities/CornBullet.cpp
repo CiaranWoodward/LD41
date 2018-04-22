@@ -7,7 +7,8 @@ CornBullet::CornBullet(GameManager & aGameManager, sf::Vector3f aStartPoint, sf:
 	mShadowSprite(),
 	mDrawObject(mGameManager.GetDrawManager(), mSprite, 0),
 	mShadowDrawObject(mGameManager.GetDrawManager(), mShadowSprite, 0),
-	mParticleHelper(aStartPoint, 800.f * aDirection + GetRandomScatter(40.f) + aBaseVelocity, 0.5f, 0.2f, 0.001f)
+	mParticleHelper(aStartPoint, 800.f * aDirection + GetRandomScatter(40.f) + aBaseVelocity, 0.5f, 0.2f, 0.001f),
+	mTimeout(sf::seconds(12))
 {
 	int randOffset = (std::rand() % 4) * 2;
 
@@ -35,6 +36,17 @@ bool CornBullet::Update(sf::Time dt)
 	mDrawObject.SetDrawLevel(static_cast<int32_t>(MapManager::GetProjectedCoords(newCoords).y + newCoords.z));
 	mShadowSprite.setPosition(MapManager::GetProjectedCoords(newCoords - sf::Vector3f(0.f, 0.f, newCoords.z)));
 	mShadowDrawObject.SetDrawLevel(static_cast<int32_t>(MapManager::GetProjectedCoords(newCoords).y - 1));
+
+	mTimeout -= dt;
+	if (mTimeout < sf::seconds(2.f))
+	{
+		mSprite.setColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(mTimeout.asSeconds() * 127.f)));
+		mShadowSprite.setColor(sf::Color::Transparent);
+	}
+	if (mTimeout < sf::Time::Zero)
+	{
+		return false;
+	}
 
 	return true;
 }

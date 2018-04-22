@@ -22,5 +22,7 @@ private:
 	DrawObject mDrawObject;
 	DrawObject mShadowDrawObject;
 	ParticleHelper mParticleHelper;
+
+	sf::Time mTimeout;
 };
 
