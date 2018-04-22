@@ -96,6 +96,12 @@
     <ClCompile Include="ScreenBumper.cpp">
       <Filter>Source Files\Engine\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="Entities\SlowGhoul.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="VectorTools.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WindowManager.h">
@@ -145,6 +151,12 @@
     </ClInclude>
     <ClInclude Include="ScreenBumper.h">
       <Filter>Header Files\Engine\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\SlowGhoul.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorTools.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -22,6 +22,18 @@ bool EnemyManager::Update()
 		}
 	}
 	mEnemyObjects.erase(std::remove(mEnemyObjects.begin(), mEnemyObjects.end(), reinterpret_cast<EnemyObject*>(NULL)), mEnemyObjects.end());
+
+	for (int i = 0; i < mEnemyObjects.size(); i++)
+	{
+		for (int j = i + 1; j < mEnemyObjects.size(); i++)
+		{
+			EnemyObject *e1, *e2;
+			e1 = mEnemyObjects[i];
+			e2 = mEnemyObjects[j];
+
+
+		}
+	}
 	return true;
 }
 

@@ -53,9 +53,44 @@ bool Player::Update(sf::Time dt)
 	mSprite.move(mVelocity * dt.asSeconds());
 	mDrawObject.SetDrawLevel(mSprite.getPosition().y - 5);
 
+	TrapOnMap();
+
 	mGameManager.GetWindowManager().SetDrawFocus(mSprite.getPosition());
 
 	return true;
+}
+
+void Player::TrapOnMap()
+{
+	//Confine player to map
+	sf::Vector2f world = mSprite.getPosition();
+	sf::Vector2f transformed(2.f * world.y + world.x, 2.f * world.y - world.x);
+	bool transformBack = false;
+	if (transformed.x < 0)
+	{
+		transformed.x = 0;
+		transformBack = true;
+	}
+	if (transformed.y < 0)
+	{
+		transformed.y = 0;
+		transformBack = true;
+	}
+	if (transformed.x > 2.f * (MapManager::kMaxX-1) * MapManager::kTileWidth)
+	{
+		transformed.x = 2.f * (MapManager::kMaxX-1) * MapManager::kTileWidth;
+		transformBack = true;
+	}
+	if (transformed.y > 4.f * (MapManager::kMaxY-1) * MapManager::kTileHeight)
+	{
+		transformed.y = 4.f * (MapManager::kMaxY-1) * MapManager::kTileHeight;
+		transformBack = true;
+	}
+	if (transformBack)
+	{
+		world = sf::Vector2f((transformed.x - transformed.y) / 2.f, (transformed.x + transformed.y) / 4.f);
+		mSprite.setPosition(world);
+	}
 }
 
 void Player::HandleMouseInput(sf::Time dt)
@@ -165,4 +200,9 @@ void Player::HandleKeyboardInput(sf::Time dt)
 	if (mSpeed > mMaxSpeed) mSpeed = mMaxSpeed;
 	if (mSpeed < 0) mSpeed = 0.f;
 	mVelocity = dir * mSpeed;
+}
+
+sf::Vector2f Player::GetWorldCoords()
+{
+	return mSprite.getPosition();
 }

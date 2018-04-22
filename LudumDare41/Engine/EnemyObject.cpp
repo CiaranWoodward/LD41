@@ -5,10 +5,11 @@
 
 
 
-EnemyObject::EnemyObject(GameManager &aGameManager, sf::Vector2f &aWorldCoords, int32_t aHealthMax) :
+EnemyObject::EnemyObject(GameManager &aGameManager, sf::Vector2f &aWorldCoords, float aHitRadius, float aMass) :
 	mGameManager(aGameManager),
 	mWorldCoords(aWorldCoords),
-	mHealth(aHealthMax)
+	mHitRadius2(aHitRadius * aHitRadius),
+	mMass(aMass)
 {
 	aGameManager.GetEnemyManager().Add(*this);
 }
@@ -20,20 +21,18 @@ EnemyObject::~EnemyObject()
 
 bool EnemyObject::Damage(int32_t damage)
 {
-	mHealth -= damage;
-
-	if (mHealth <= 0)
-	{
-		mHealth = 0;
-	}
-
-	return (mHealth == 0);
+	return (true);
 }
 
 float EnemyObject::DistanceTo(sf::Vector2f aWorldCoords)
 {
+	return sqrtf(DistanceSquaredTo(aWorldCoords));
+}
+
+float EnemyObject::DistanceSquaredTo(sf::Vector2f aWorldCoords)
+{
 	sf::Vector2f delt = aWorldCoords - mWorldCoords;
 	delt.y = delt.y * 2.f; //Double the Y to account for the dimetric projection
 
-	return sqrtf((delt.x * delt.x) + (delt.y * delt.y));
+	return (delt.x * delt.x) + (delt.y * delt.y);
 }

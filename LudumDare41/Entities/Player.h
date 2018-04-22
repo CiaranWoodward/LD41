@@ -21,6 +21,8 @@ public:
 
 	void HandleKeyboardInput(sf::Time dt);
 
+	sf::Vector2f GetWorldCoords();
+
 private:
 	GameManager &mGameManager;
 	Crosshair &mCrosshair;
@@ -49,5 +51,7 @@ private:
 	DrawObject mDrawTextObject;
 
 	ScreenBumper *mScreenBumper;
+
+	void TrapOnMap();
 };
 

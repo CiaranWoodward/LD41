@@ -18,153 +18,7 @@ MapManager::~MapManager()
 
 bool MapManager::Update()
 {
-	//First reset the map smells
-	for (uint32_t x = 0; x < kMaxX; x++)
-	{
-		for (uint32_t y = 0; y < kMaxY; y++)
-		{
-			mTiles[x][y].mSmellFactor = 0;
-			mTiles[x][y].mLastTouched = 0;
-		}
-	}
-
-	//Now spread the smells using the potentially garbage algorithm i just made up
-	for (uint32_t x = 0; x < kMaxX; x++)
-	{
-		for (uint32_t y = 0; y < kMaxY; y++)
-		{
-			if (mTiles[x][y].GetTileObject() != NULL && mTiles[x][y].GetTileObject()->GetKeenFactor() > 4)
-			{
-				CastSmells(x, y, mTiles[x][y].GetTileObject()->GetKeenFactor());
-			}
-		}
-	}
-
 	return true;
-}
-
-void MapManager::CastSmells(uint32_t x, uint32_t y, int32_t aKeenFactor)
-{
-	if (aKeenFactor < 0) return;
-	if (aKeenFactor > 31) aKeenFactor = 31;
-
-	mTiles[x][y].IncrementSmellFactor(1 << aKeenFactor);
-
-	uint32_t decay = 16;
-	
-	//Cast in y+ direction
-	for (uint32_t xRan = 1, ty=y; ty < kMaxY-1; xRan += 2, ty++)
-	{
-		uint32_t minX = x - (xRan / 2);
-		uint32_t maxX = x + (xRan / 2);
-		if (minX == 0 || minX > kMaxX) minX = 1;
-		if (maxX >= kMaxX-1) maxX = kMaxX-2;
-
-		bool StillGoing = 0;
-		for (uint32_t tx = minX; tx <= maxX; tx++) //Wipe the 'lasttouched'
-		{
-			assert(tx >= 0 && tx < kMaxX);
-			assert((ty + 1) >= 0 && (ty + 1) < kMaxY);
-			assert((tx + 1) >= 0 && (tx + 1) < kMaxY);
-			assert((tx - 1) >= 0 && (tx - 1) < kMaxY);
-			mTiles[tx][ty + 1].mLastTouched = 0;
-		}
-		for (uint32_t tx = minX; tx <= maxX; tx++) //3 tile projection for each tile in range
-		{
-			uint32_t curSmell = mTiles[tx][ty].mLastTouched;
-
-			if (mTiles[tx][ty].GetBlockFactor() > 0) curSmell /= mTiles[tx][ty].GetBlockFactor();
-			StillGoing = StillGoing || (curSmell > 2);
-
-			if (tx+1 > kMaxX || tx - 1 )
-			mTiles[tx + 1][ty + 1].IncrementSmellFactor(curSmell / decay * 2);
-			mTiles[tx - 1][ty + 1].IncrementSmellFactor(curSmell / decay * 2);
-			mTiles[tx][ty + 1].IncrementSmellFactor(curSmell / decay);
-		}
-		if (!StillGoing) break;
-	}
-
-	//Cast in y- direction
-	for (uint32_t xRan = 1, ty = y; ty > 1; xRan += 2, ty--)
-	{
-		uint32_t minX = x - (xRan / 2);
-		uint32_t maxX = x + (xRan / 2);
-		if (minX == 0 || minX > kMaxX) minX = 1;
-		if (maxX >= kMaxX - 1) maxX = kMaxX - 2;
-
-		bool StillGoing = 0;
-		for (uint32_t tx = minX; tx <= maxX; tx++) //Wipe the 'lasttouched'
-		{
-			mTiles[tx][ty - 1].mLastTouched = 0;
-		}
-		for (uint32_t tx = minX; tx <= maxX; tx++) //3 tile projection for each tile in range
-		{
-			uint32_t curSmell = mTiles[tx][ty].mLastTouched;
-
-			if (mTiles[tx][ty].GetBlockFactor() > 0) curSmell /= mTiles[tx][ty].GetBlockFactor();
-			StillGoing = StillGoing || (curSmell > 2);
-
-			mTiles[tx + 1][ty - 1].IncrementSmellFactor(curSmell / decay * 2);
-			mTiles[tx - 1][ty - 1].IncrementSmellFactor(curSmell / decay * 2);
-			mTiles[tx][ty - 1].IncrementSmellFactor(curSmell / decay);
-		}
-		if (!StillGoing) break;
-	}
-
-	//Cast in x+ direction
-	for (uint32_t yRan = 1, tx = x; tx < kMaxX - 1; yRan += 2, tx++)
-	{
-		uint32_t minY = y - (yRan / 2);
-		uint32_t maxY = y + (yRan / 2);
-		if (minY == 0 || minY > kMaxY) minY = 1;
-		if (maxY >= kMaxY - 1) maxY = kMaxY - 2;
-
-		bool StillGoing = 0;
-		for (uint32_t ty = minY; ty <= maxY; ty++) //Wipe the 'lasttouched'
-		{
-			mTiles[tx + 1][ty].mLastTouched = 0;
-		}
-		for (uint32_t ty = minY; ty <= maxY; ty++) //3 tile projection for each tile in range
-		{
-			uint32_t curSmell = mTiles[tx][ty].mLastTouched;
-
-			if (mTiles[tx][ty].GetBlockFactor() > 0) curSmell /= mTiles[tx][ty].GetBlockFactor();
-			StillGoing = StillGoing || (curSmell > 2);
-
-			mTiles[tx + 1][ty + 1].IncrementSmellFactor(curSmell / decay * 2);
-			mTiles[tx + 1][ty - 1].IncrementSmellFactor(curSmell / decay * 2);
-			mTiles[tx + 1][ty].IncrementSmellFactor(curSmell / decay);
-		}
-		if (!StillGoing) break;
-	}
-
-	//Cast in x- direction
-	for (uint32_t yRan = 1, tx = x; tx > 1; yRan += 2, tx--)
-	{
-		uint32_t minY = y - (yRan / 2);
-		uint32_t maxY = y + (yRan / 2);
-		if (minY == 0 || minY > kMaxY) minY = 1;
-		if (maxY >= kMaxY - 1) maxY = kMaxY - 2;
-
-		bool StillGoing = 0;
-		for (uint32_t ty = minY; ty <= maxY; ty++) //Wipe the 'lasttouched'
-		{
-			mTiles[tx - 1][ty].mLastTouched = 0;
-		}
-		for (uint32_t ty = minY; ty <= maxY; ty++) //3 tile projection for each tile in range
-		{
-			uint32_t curSmell = mTiles[tx][ty].mLastTouched;
-
-			if (mTiles[tx][ty].GetBlockFactor() > 0) curSmell /= mTiles[tx][ty].GetBlockFactor();
-			StillGoing = StillGoing || (curSmell > 2);
-
-			mTiles[tx - 1][ty + 1].IncrementSmellFactor(curSmell / decay * 2);
-			mTiles[tx - 1][ty - 1].IncrementSmellFactor(curSmell / decay * 2);
-			mTiles[tx - 1][ty].IncrementSmellFactor(curSmell / decay);
-		}
-		if (!StillGoing) break;
-	}
-	
 }
 
 Tile &MapManager::GetTile(sf::Vector2<uint32_t> aTileCoord)
@@ -186,4 +40,16 @@ sf::Vector2f MapManager::GetTileDrawCenter(const sf::Vector2<uint32_t> &aTileCoo
 	rval.x += (kTileHeight / 2);
 
 	return rval;
+}
+
+sf::Vector2i MapManager::GetTileCoords(sf::Vector2f aWorldCoords)
+{
+	int32_t div = MapManager::kTileWidth + (2 * MapManager::kTileHeight);
+	int32_t Sy = static_cast<int32_t>(aWorldCoords.y);
+	int32_t Sx = static_cast<int32_t>(aWorldCoords.x);
+
+	sf::Vector2i tileCoords(((2 * Sy) + Sx) / div, ((2 * Sy) - Sx) / div);
+	tileCoords += {1, 1};
+
+	return tileCoords;
 }
