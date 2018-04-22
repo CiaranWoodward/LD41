@@ -21,7 +21,7 @@ EnemyObject::~EnemyObject()
 
 bool EnemyObject::Damage(int32_t damage)
 {
-	return (true);
+	return (false);
 }
 
 float EnemyObject::DistanceTo(sf::Vector2f aWorldCoords)

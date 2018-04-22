@@ -27,7 +27,7 @@ SlowGhoul::SlowGhoul(GameManager &aGameManager, Player &aPlayer) :
 	float r = 1500.f;
 	float theta = rand() % 6283;
 	theta /= 1000.f;
-	mWorldPos = sf::Vector2f(r * sin(theta), r * cos(theta));
+	mWorldPos = sf::Vector2f(r * sin(theta), r * cos(theta)) + mPlayer.GetWorldCoords();
 	mSprite.setPosition(mWorldPos);
 	mSprite.setOrigin(mSprite.getTextureRect().width / 2.f, mSprite.getTextureRect().height);
 }
@@ -39,8 +39,8 @@ SlowGhoul::~SlowGhoul()
 bool SlowGhoul::Update(sf::Time dt)
 {
 	HandleChase(dt);
-
-	mSprite.move(mVelocity * dt.asSeconds());
+	mWorldPos += mVelocity * dt.asSeconds();
+	mSprite.setPosition(mWorldPos);
 	mDrawObject.SetDrawLevel(mSprite.getPosition().y - 5);
 
 	return true;
@@ -48,7 +48,7 @@ bool SlowGhoul::Update(sf::Time dt)
 
 void SlowGhoul::HandleChase(sf::Time dt)
 {
-	sf::Vector2f dir = mPlayer.GetWorldCoords() - mSprite.getPosition();
+	sf::Vector2f dir = mPlayer.GetWorldCoords() - mWorldPos;
 
 	//Normalize direction
 	float mag = std::sqrtf(dir.x * dir.x + dir.y * dir.y);

@@ -25,13 +25,29 @@ bool EnemyManager::Update()
 
 	for (int i = 0; i < mEnemyObjects.size(); i++)
 	{
-		for (int j = i + 1; j < mEnemyObjects.size(); i++)
+		for (int j = i + 1; j < mEnemyObjects.size(); j++)
 		{
 			EnemyObject *e1, *e2;
+			float hr1, hr2;
 			e1 = mEnemyObjects[i];
 			e2 = mEnemyObjects[j];
+			hr1 = sqrt(e1->GetHitRadiusSquared());
+			hr2 = sqrt(e2->GetHitRadiusSquared());
 
+			float dist = e1->DistanceTo(e2->GetWorldCoords());
+			if (dist < hr1 + hr2)
+			{
+				if (e1->GetMass() > e2->GetMass())
+				{
+					EnemyObject *temp;
+					temp = e1; e1 = e2; e2 = temp;
+				}
+				float forceDist = hr1 + hr2 - dist;
+				sf::Vector2f displacement = (e1->GetWorldCoords() - e2->GetWorldCoords());
+				displacement *= forceDist / dist;
 
+				e1->ForceMove(displacement);
+			}
 		}
 	}
 	return true;

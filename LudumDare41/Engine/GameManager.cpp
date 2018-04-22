@@ -40,6 +40,14 @@ int GameManager::run()
 	new SlowGhoul(*this, *player);
 	new SlowGhoul(*this, *player);
 	new SlowGhoul(*this, *player);
+	new SlowGhoul(*this, *player);
+	new SlowGhoul(*this, *player);
+	new SlowGhoul(*this, *player);
+	new SlowGhoul(*this, *player);
+	new SlowGhoul(*this, *player);
+	new SlowGhoul(*this, *player);
+	new SlowGhoul(*this, *player);
+	new SlowGhoul(*this, *player);
 	
 	while (run)
 	{

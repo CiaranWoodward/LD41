@@ -19,6 +19,8 @@ public:
 	float GetMass() { return mMass; }
 	float GetHitRadiusSquared() { return mHitRadius2; }
 
+	void ForceMove(sf::Vector2f aDisplacement) { mWorldCoords += aDisplacement; }
+
 private:
 	GameManager &mGameManager;
 
