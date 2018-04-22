@@ -19,7 +19,7 @@ SlowGhoul::SlowGhoul(GameManager &aGameManager, Player &aPlayer) :
 	mMaxSpeed(250.f),
 	mAccel(1600.f),
 	mPlayer(aPlayer),
-	mEnemyObject(mGameManager, mWorldPos, 15.f, 70.f)
+	mEnemyObject(mGameManager, mWorldPos, 15.f, (float) rand() / 8192.f)
 {
 	mSprite.setTexture(mGameManager.GetDrawManager().GetGlobalTexture());
 	mSprite.setTextureRect(mTextCoords1);
@@ -27,7 +27,7 @@ SlowGhoul::SlowGhoul(GameManager &aGameManager, Player &aPlayer) :
 	float r = 1500.f;
 	float theta = rand() % 6283;
 	theta /= 1000.f;
-	mWorldPos = sf::Vector2f(r * sin(theta), r * cos(theta)) + mPlayer.GetWorldCoords();
+	mWorldPos = sf::Vector2f(r * sin(theta), r / 2.f * cos(theta)) + mPlayer.GetWorldCoords();
 	mSprite.setPosition(mWorldPos);
 	mSprite.setOrigin(mSprite.getTextureRect().width / 2.f, mSprite.getTextureRect().height);
 }

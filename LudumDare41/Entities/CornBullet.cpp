@@ -1,4 +1,5 @@
 #include "CornBullet.h"
+#include "../Engine/EnemyManager.h"
 
 CornBullet::CornBullet(GameManager & aGameManager, sf::Vector3f aStartPoint, sf::Vector3f aBaseVelocity, sf::Vector3f aDirection) :
 	LogicObject(aGameManager.GetLogicManager()),
@@ -7,7 +8,7 @@ CornBullet::CornBullet(GameManager & aGameManager, sf::Vector3f aStartPoint, sf:
 	mShadowSprite(),
 	mDrawObject(mGameManager.GetDrawManager(), mSprite, 0),
 	mShadowDrawObject(mGameManager.GetDrawManager(), mShadowSprite, 0),
-	mParticleHelper(aStartPoint, 800.f * aDirection + GetRandomScatter(40.f) + aBaseVelocity, 0.5f, 0.2f, 0.001f),
+	mParticleHelper(aStartPoint, 800.f * aDirection + GetRandomScatter(40.f) + aBaseVelocity, 0.6f, 0.2f, 0.001f),
 	mTimeout(sf::seconds(12))
 {
 	int randOffset = (std::rand() % 4) * 2;
@@ -30,6 +31,8 @@ CornBullet::~CornBullet()
 
 bool CornBullet::Update(sf::Time dt)
 {
+	HandleDamage(dt);
+
 	sf::Vector3f newCoords = mParticleHelper.GetNewCoords(dt);
 	
 	mSprite.setPosition(MapManager::GetProjectedCoords(newCoords));
@@ -49,6 +52,21 @@ bool CornBullet::Update(sf::Time dt)
 	}
 
 	return true;
+}
+
+void CornBullet::HandleDamage(sf::Time dt)
+{
+	if (mParticleHelper.IsDead()) return;
+
+	sf::Vector3f vel = mParticleHelper.GetVelocity();
+	sf::Vector3f pos = mParticleHelper.GetCoords();
+	float speed = sqrt(vel.x * vel.x + vel.y * vel.y + vel.z * vel.z);
+
+	EnemyObject *eo = mGameManager.GetEnemyManager().GetHitEnemy(sf::Vector2f(pos.x, pos.y / 2));
+	if (eo == NULL) return;
+
+	//TODO: Vector arithmetic to find collision point... maybe
+	mParticleHelper.vertBounce();
 }
 
 sf::Vector3f CornBullet::GetRandomScatter(float scatterval)

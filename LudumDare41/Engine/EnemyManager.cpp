@@ -53,6 +53,17 @@ bool EnemyManager::Update()
 	return true;
 }
 
+EnemyObject *EnemyManager::GetHitEnemy(sf::Vector2f aWorldCoord)
+{
+	for (EnemyObject *&eo : mEnemyObjects)
+	{
+		float hrs = eo->GetHitRadiusSquared();
+		if (eo->DistanceSquaredTo(aWorldCoord) < hrs)
+			return eo;
+	}
+	return NULL;
+}
+
 EnemyObject *EnemyManager::GetClosestEnemy(sf::Vector2f aWorldCoord)
 {
 	EnemyObject *rval = NULL;

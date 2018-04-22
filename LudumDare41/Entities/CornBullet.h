@@ -24,5 +24,7 @@ private:
 	ParticleHelper mParticleHelper;
 
 	sf::Time mTimeout;
+
+	void HandleDamage(sf::Time dt);
 };
 

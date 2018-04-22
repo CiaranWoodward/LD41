@@ -12,6 +12,8 @@ public:
 
 	bool Update();
 
+	EnemyObject * GetHitEnemy(sf::Vector2f aWorldCoord);
+
 	EnemyObject *GetClosestEnemy(sf::Vector2f aWorldCoord);
 
 protected:
