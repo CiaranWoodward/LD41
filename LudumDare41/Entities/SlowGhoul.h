@@ -42,5 +42,7 @@ private:
 
 	void HandleChase(sf::Time dt);
 	void HandleAnimation(sf::Time dt);
+
+	bool mFarmPlaced;
 };
 

@@ -1,6 +1,7 @@
 #include "SlowGhoul.h"
 #include "../VectorTools.h"
 #include "BloodSplatter.h"
+#include "DeathFarm.h"
 
 SlowGhoul::SlowGhoul(GameManager &aGameManager, Player &aPlayer) :
 	LogicObject(aGameManager.GetLogicManager()),
@@ -22,7 +23,8 @@ SlowGhoul::SlowGhoul(GameManager &aGameManager, Player &aPlayer) :
 	mAccel(1600.f),
 	mHealth(100.f),
 	mPlayer(aPlayer),
-	mEnemyObject(mGameManager, *this, mWorldPos, 15.f, (float) rand() / 8192.f, 50.f)
+	mEnemyObject(mGameManager, *this, mWorldPos, 15.f, (float) rand() / 8192.f, 50.f),
+	mFarmPlaced(false)
 {
 	mSprite.setTexture(mGameManager.GetDrawManager().GetGlobalTexture());
 	mSprite.setTextureRect(mTextCoords1);
@@ -52,6 +54,14 @@ bool SlowGhoul::Update(sf::Time dt)
 		new BloodSplatter(mGameManager, bloodpoint, sf::Vector3f());
 		bloodpoint.z += 15.f;
 		new BloodSplatter(mGameManager, bloodpoint, sf::Vector3f());
+
+		if (!mFarmPlaced)
+		{
+			mFarmPlaced = true;
+			new DeathFarm(mGameManager, mWorldPos);
+		}
+
+
 		if (mDeathTimeout < sf::Time::Zero)
 			return false;
 		return true;

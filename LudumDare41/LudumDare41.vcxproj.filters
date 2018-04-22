@@ -105,6 +105,9 @@
     <ClCompile Include="Entities\BloodSplatter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Entities\DeathFarm.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WindowManager.h">
@@ -162,6 +165,9 @@
       <Filter>Header Files\Engine\Tools</Filter>
     </ClInclude>
     <ClInclude Include="Entities\BloodSplatter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\DeathFarm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
