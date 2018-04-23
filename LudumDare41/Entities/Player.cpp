@@ -143,7 +143,7 @@ void Player::HandleWaves(sf::Time dt)
 
 		if (mMicroWaveCount == 0)
 		{
-			mWaveCooldown = sf::seconds(20 + 2.f * mWaveCount);
+			mWaveCooldown = sf::seconds(20 + mWaveCount);
 			mWaveCount++;
 			mMicroWaveCount = 3;
 		}

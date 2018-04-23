@@ -111,7 +111,7 @@ void SlowGhoul::HandleAnimation(sf::Time dt)
 float SlowGhoul::EvaluateDamage(float aDamage, sf::Vector3f aImpactPoint)
 {
 	float actDamage = aDamage - 2.f;
-	if (actDamage < 0) actDamage = 0.f;
+	if (actDamage < 0.f) actDamage = 0.f;
 	return actDamage;
 }
 

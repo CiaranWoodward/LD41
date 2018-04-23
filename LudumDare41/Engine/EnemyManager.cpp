@@ -17,8 +17,6 @@ bool EnemyManager::Update()
 		if (eo->isDead())
 		{
 			eo = NULL;
-			mCorpseCounter++;
-			mCorpseTotal++;
 		}
 	}
 	mEnemyObjects.erase(std::remove(mEnemyObjects.begin(), mEnemyObjects.end(), reinterpret_cast<EnemyObject*>(NULL)), mEnemyObjects.end());
