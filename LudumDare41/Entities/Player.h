@@ -57,6 +57,13 @@ private:
 
 	ScreenBumper *mScreenBumper;
 
+	sf::Time mWaveCooldown;
+	sf::Time mMicroWave;
+	int mWaveCount;
+	int mMicroWaveCount;
+
 	void TrapOnMap();
+
+	void HandleWaves(sf::Time dt);
 };
 

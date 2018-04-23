@@ -131,6 +131,7 @@ bool SlowGhoul::TakeDamage(float aDamage, sf::Vector3f aImpactPoint, sf::Vector3
 void SlowGhoul::HandleChase(sf::Time dt)
 {
 	sf::Vector2f dir = mPlayer.GetWorldCoords() - mWorldPos;
+	mHitCooldown -= dt;
 
 	//Normalize direction
 	float mag = std::sqrtf(dir.x * dir.x + dir.y * dir.y);
@@ -145,16 +146,18 @@ void SlowGhoul::HandleChase(sf::Time dt)
 		mSpeed -= mAccel * dt.asSeconds();
 	}
 
-	if (mag < 30.f && mHitCooldown <= sf::Time::Zero)
+	if (mag < 40.f && mHitCooldown <= sf::Time::Zero)
 	{
 		mPlayer.mHealth -= 15.f;
 		mHitCooldown = sf::seconds(1.f);
 		new BloodSplatter(mGameManager, MapManager::GetFloorCoords(mPlayer.GetWorldCoords()) + sf::Vector3f(0, 0, 70.f), sf::Vector3f());
 		new BloodSplatter(mGameManager, MapManager::GetFloorCoords(mPlayer.GetWorldCoords()) + sf::Vector3f(0, 0, 70.f), sf::Vector3f());
-		mRecoilMag = 200.f;
-		mRecoil = -dir;
-		mSpeed = 0.f;
+		mRecoilMag = 700.f;
+		mRecoil = dir;
 	}
+
+	if(mag < 40.f)
+		mSpeed = 0.f;
 
 	if (mSpeed > mMaxSpeed) mSpeed = mMaxSpeed;
 	if (mSpeed < 0) mSpeed = 0.f;

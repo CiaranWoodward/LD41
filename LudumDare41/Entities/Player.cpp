@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "CornBullet.h"
 #include "BloodSplatter.h"
+#include "SlowGhoul.h"
 
 #include "SFML\Window\Keyboard.hpp"
 #include "SFML\Window\Mouse.hpp"
@@ -31,11 +32,15 @@ Player::Player(GameManager &aGameManager, Crosshair &aCrosshair) :
 	mDrawTextObject(mGameManager.GetDrawManager(), mTextMessage, INT32_MAX),
 	mScreenBumper(new ScreenBumper(aGameManager)),
 	mKernels(100),
-	mCobs(10)
+	mCobs(10),
+	mWaveCooldown(sf::seconds(5)),
+    mMicroWave(sf::seconds(3)),
+	mWaveCount(1),
+	mMicroWaveCount(3)
 {
 	mSprite.setTexture(mGameManager.GetDrawManager().GetGlobalTexture());
 	mSprite.setTextureRect(sf::IntRect(0, 0, 53, 81));
-	mSprite.setPosition(MapManager::GetTileDrawOrigin(sf::Vector2u(20,20)));
+	mSprite.setPosition(MapManager::GetTileDrawOrigin(sf::Vector2u(50,50)));
 	mSprite.setOrigin(mSprite.getTextureRect().width / 2.f, mSprite.getTextureRect().height);
 	mDrawObject.SetDrawLevel(static_cast<int32_t>(MapManager::GetTileDrawOrigin(sf::Vector2u(50, 50)).y));
 
@@ -51,8 +56,25 @@ Player::~Player()
 
 bool Player::Update(sf::Time dt)
 {
+	if (mHealth < 0.f)
+	{
+		sf::Vector3f headCoords = MapManager::GetFloorCoords(mSprite.getPosition() - sf::Vector2f(0.f, 5.f));
+		headCoords.z += 70;
+		new BloodSplatter(mGameManager, headCoords, sf::Vector3f());
+		new BloodSplatter(mGameManager, headCoords, sf::Vector3f());
+
+		char stringbuf[40];
+		sprintf_s(stringbuf, 40, "GAME OVER! Score is %d", mGameManager.GetKillCount() + mGameManager.GetGrainCount() * 2);
+		mTextMessage.setString(stringbuf);
+		mTextMessage.setOrigin(mTextMessage.getLocalBounds().width / 2, 0);
+
+		return true;
+	}
+
+
 	HandleKeyboardInput(dt);
 	HandleMouseInput(dt);
+	HandleWaves(dt);
 
 	mSprite.move(mVelocity * dt.asSeconds());
 	mDrawObject.SetDrawLevel(mSprite.getPosition().y - 5);
@@ -100,6 +122,31 @@ void Player::TrapOnMap()
 	{
 		world = sf::Vector2f((transformed.x - transformed.y) / 2.f, (transformed.x + transformed.y) / 4.f);
 		mSprite.setPosition(world);
+	}
+}
+
+void Player::HandleWaves(sf::Time dt)
+{
+	mWaveCooldown -= dt;
+	if (mWaveCooldown > sf::Time::Zero) return;
+
+	mMicroWave -= dt;
+
+	if (mMicroWave <= sf::Time::Zero)
+	{
+		mMicroWaveCount--;
+		mMicroWave = sf::seconds(4.f);
+		for (int i = 0; i < mWaveCount; i++)
+		{
+			new SlowGhoul(mGameManager, *this); //hehe
+		}
+
+		if (mMicroWaveCount == 0)
+		{
+			mWaveCooldown = sf::seconds(20 + 2.f * mWaveCount);
+			mWaveCount++;
+			mMicroWaveCount = 3;
+		}
 	}
 }
 
