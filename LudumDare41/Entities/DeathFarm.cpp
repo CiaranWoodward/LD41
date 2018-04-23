@@ -58,13 +58,14 @@ bool DeathFarm::Update(sf::Time dt)
 	{
 		mSprite.setTextureRect(sf::IntRect(216 + 54 * 3, 243, 54, 53));
 	}
-	else if (mTimeout > sf::seconds(-20.f))
+	else if (mTimeout > sf::seconds(-11.f))
 	{
 		mSprite.setTextureRect(sf::IntRect(216 + 54 * 4, 243, 54, 53));
 		ripe = true;
 	}
 	else
 	{
+		ripe = false;
 		mSprite.setTextureRect(sf::IntRect(216 + 54 * 5, 243, 54, 53));
 	}
 
@@ -109,7 +110,7 @@ bool DeathFarm::Update(sf::Time dt)
 float DeathFarm::EvaluateDamage(float aDamage, sf::Vector3f aImpactPoint)
 {
 	if(!mDead && !mSufficient)
-		return aDamage < 0.f ? aDamage : 0.f;
+		return aDamage < 0.f ? aDamage * 0.9f : 0.f;
 	return 0.f;
 }
 
