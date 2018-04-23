@@ -25,7 +25,8 @@ public:
 
 	int mCobs;
 	int mKernels;
-	int mHealth;
+
+	float mHealth;
 
 private:
 	GameManager &mGameManager;

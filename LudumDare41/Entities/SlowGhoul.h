@@ -27,6 +27,7 @@ private:
 	DrawObject mDrawObject;
 	sf::Time mAnimCooldown;
 	sf::Time mDeathTimeout;
+	sf::Time mHitCooldown;
 
 	sf::Vector2f mWorldPos;
 	sf::Vector2f mVelocity;

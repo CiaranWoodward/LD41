@@ -14,6 +14,7 @@ SlowGhoul::SlowGhoul(GameManager &aGameManager, Player &aPlayer) :
 	mDrawObject(aGameManager.GetDrawManager(), mSprite, 0),
 	mAnimCooldown(sf::seconds((float) (rand() % 100) / 100.f)),
 	mDeathTimeout(sf::seconds(1.f)),
+	mHitCooldown(sf::seconds(0.f)),
 	mWorldPos(),
 	mVelocity(),
 	mRecoil(),
@@ -143,6 +144,18 @@ void SlowGhoul::HandleChase(sf::Time dt)
 	{
 		mSpeed -= mAccel * dt.asSeconds();
 	}
+
+	if (mag < 30.f && mHitCooldown <= sf::Time::Zero)
+	{
+		mPlayer.mHealth -= 15.f;
+		mHitCooldown = sf::seconds(1.f);
+		new BloodSplatter(mGameManager, MapManager::GetFloorCoords(mPlayer.GetWorldCoords()) + sf::Vector3f(0, 0, 70.f), sf::Vector3f());
+		new BloodSplatter(mGameManager, MapManager::GetFloorCoords(mPlayer.GetWorldCoords()) + sf::Vector3f(0, 0, 70.f), sf::Vector3f());
+		mRecoilMag = 200.f;
+		mRecoil = -dir;
+		mSpeed = 0.f;
+	}
+
 	if (mSpeed > mMaxSpeed) mSpeed = mMaxSpeed;
 	if (mSpeed < 0) mSpeed = 0.f;
 	mVelocity = dir * mSpeed;

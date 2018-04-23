@@ -29,6 +29,7 @@ private:
 
 	sf::Text mAmmoDisplay;
 	sf::Text mKillCountDisplay;
+	sf::Text mHealthDisplay;
 
 	GameManager &mGameManager;
 };

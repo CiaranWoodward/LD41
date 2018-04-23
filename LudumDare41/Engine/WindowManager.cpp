@@ -11,7 +11,8 @@ WindowManager::WindowManager(GameManager &aGameManager) :
 	mFocusPoint(),
 	mScreenBump(),
 	mAmmoDisplay(),
-	mKillCountDisplay()
+	mKillCountDisplay(),
+	mHealthDisplay()
 {
 	sf::Vector2f center = MapManager::GetTileDrawCenter(sf::Vector2<uint32_t>(MapManager::kMaxX/2, MapManager::kMaxY/2));
 	mView = sf::View(center, mDimens);
@@ -34,6 +35,11 @@ WindowManager::WindowManager(GameManager &aGameManager) :
 	mKillCountDisplay.setPosition(sf::Vector2f(mWindow.getDefaultView().getSize().x / 2.f, 10.f));
 	mKillCountDisplay.setOrigin(mKillCountDisplay.getLocalBounds().width / 2, 0);
 	mKillCountDisplay.setFillColor(sf::Color::Red);
+
+	mHealthDisplay.setFont(mGameManager.GetDrawManager().GetGlobalFont());
+	mHealthDisplay.setPosition(sf::Vector2f(mWindow.getDefaultView().getSize().x - 10.f, mWindow.getDefaultView().getSize().y - 10.f));
+	mHealthDisplay.setOrigin(mKillCountDisplay.getLocalBounds().width, 25.f);
+	mHealthDisplay.setFillColor(sf::Color::Red);
 }
 
 
@@ -68,6 +74,11 @@ bool WindowManager::Update()
 	mKillCountDisplay.setString(stringbuf);
 	mKillCountDisplay.setOrigin(mKillCountDisplay.getLocalBounds().width / 2, 0);
 
+	sprintf_s(stringbuf, 40, "%4.f %% HEALTH", player.mHealth);
+	mHealthDisplay.setString(stringbuf);
+	mHealthDisplay.setOrigin(mHealthDisplay.getLocalBounds().width, 25.f);
+
+
 	mWindow.clear(sf::Color(126, 75, 50));
 	mWindow.setView(mView);
 	mGameManager.GetDrawManager().DrawAll(mWindow);
@@ -75,6 +86,7 @@ bool WindowManager::Update()
 	mWindow.draw(mHUD);
 	mWindow.draw(mAmmoDisplay);
 	mWindow.draw(mKillCountDisplay);
+	mWindow.draw(mHealthDisplay);
 	mWindow.setView(mView);
 	mWindow.display();
 	

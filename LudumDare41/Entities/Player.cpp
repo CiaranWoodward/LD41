@@ -25,6 +25,7 @@ Player::Player(GameManager &aGameManager, Crosshair &aCrosshair) :
 	mSpeed(0.f),
 	mMaxSpeed(300.f),
 	mAccel(1600.f),
+	mHealth(100.f),
 	mDrawObject(mGameManager.GetDrawManager(), mSprite, 0),
 	mTextCounter(0),
 	mDrawTextObject(mGameManager.GetDrawManager(), mTextMessage, INT32_MAX),
@@ -210,6 +211,38 @@ void Player::HandleKeyboardInput(sf::Time dt)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
 		dir.x += 1.f;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E) && mTextCooldown <= sf::Time::Zero)
+	{
+		if (mCobs > 0)
+		{
+			mHealth += 30.f;
+			mTextMessage.setString("Delicious!");
+			mTextCooldown = sf::seconds(2.f);
+			if (mHealth > 100.f) mHealth = 100.f;
+		}
+		else
+		{
+			mTextMessage.setString("Nothing left... Getting desperate.");
+			mTextCooldown = sf::seconds(2.f);
+		}
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R) && mTextCooldown <= sf::Time::Zero)
+	{
+		if (mCobs > 0)
+		{
+			mKernels = 120;
+			mCobs--;
+			mTextMessage.setString("Reloading!");
+			mTextCooldown = sf::seconds(2.f);
+		}
+		else
+		{
+			mTextMessage.setString("No Ammo... This isn't good");
+			mTextCooldown = sf::seconds(2.f);
+		}
 	}
 
 	//Normalize direction
