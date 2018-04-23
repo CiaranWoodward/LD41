@@ -17,7 +17,7 @@ Player::Player(GameManager &aGameManager, Crosshair &aCrosshair) :
 	mTextCoordsLeft(0, 81*2, 53, 81),
 	mTextCoordsRight(0, 0, 53, 81),
 	mSprite(),
-	mTextMessage("", mGameManager.GetDrawManager().GetGlobalFont(), 20),
+	mTextMessage("Let's Kill Some Ghouls & Grow Some CORN!", mGameManager.GetDrawManager().GetGlobalFont(), 18),
 	mCooldown(sf::Time::Zero),
 	mTriggerLastState(false),
 	mTextCooldown(sf::seconds(5.f)),
@@ -28,7 +28,9 @@ Player::Player(GameManager &aGameManager, Crosshair &aCrosshair) :
 	mDrawObject(mGameManager.GetDrawManager(), mSprite, 0),
 	mTextCounter(0),
 	mDrawTextObject(mGameManager.GetDrawManager(), mTextMessage, INT32_MAX),
-	mScreenBumper(new ScreenBumper(aGameManager))
+	mScreenBumper(new ScreenBumper(aGameManager)),
+	mKernels(100),
+	mCobs(10)
 {
 	mSprite.setTexture(mGameManager.GetDrawManager().GetGlobalTexture());
 	mSprite.setTextureRect(sf::IntRect(0, 0, 53, 81));
@@ -36,7 +38,7 @@ Player::Player(GameManager &aGameManager, Crosshair &aCrosshair) :
 	mSprite.setOrigin(mSprite.getTextureRect().width / 2.f, mSprite.getTextureRect().height);
 	mDrawObject.SetDrawLevel(static_cast<int32_t>(MapManager::GetTileDrawOrigin(sf::Vector2u(50, 50)).y));
 
-	mTextMessage.setPosition(mSprite.getPosition() - sf::Vector2f(0.f, 75.f));
+	mTextMessage.setPosition(mSprite.getPosition() - sf::Vector2f(0.f, 140.f));
 	mTextMessage.setOrigin(mTextMessage.getLocalBounds().width / 2, 0);
 	mTextMessage.setFillColor(sf::Color::White);
 }
@@ -53,6 +55,12 @@ bool Player::Update(sf::Time dt)
 
 	mSprite.move(mVelocity * dt.asSeconds());
 	mDrawObject.SetDrawLevel(mSprite.getPosition().y - 5);
+
+	mTextMessage.setPosition(mSprite.getPosition() - sf::Vector2f(0.f, 140.f));
+	mTextMessage.setOrigin(mTextMessage.getLocalBounds().width / 2, 0);
+	mTextCooldown -= dt;
+	if (mTextCooldown < sf::Time::Zero)
+		mTextMessage.setString("");
 
 	TrapOnMap();
 
@@ -150,7 +158,7 @@ void Player::HandleMouseInput(sf::Time dt)
 	{
 		mCooldown -= dt;
 	}
-	else if (shoot)
+	else if (shoot && mKernels > 0)
 	{
 		sf::Vector3f gunSpeed(mVelocity.x, mVelocity.y * 2, 0.f);
 
@@ -164,8 +172,19 @@ void Player::HandleMouseInput(sf::Time dt)
 			mRecoilMag = 50.f;
 			mScreenBumper->Bump(mRecoil * mRecoilMag);
 			new CornBullet(mGameManager, gunCoords, gunSpeed, shootDir);
+			mKernels--;
 			//mCooldown = sf::seconds(0.1f);
 		}
+	}
+
+	if (mKernels <= 0 && mCobs > 0 && mCooldown <= sf::Time::Zero)
+	{
+		//Reload
+		mCooldown = sf::seconds(1.f);
+		mKernels = 120;
+		mCobs--;
+		mTextMessage.setString("Reloading...");
+		mTextCooldown = sf::seconds(2.f);
 	}
 
 	mVelocity -= mRecoil * mRecoilMag;

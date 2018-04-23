@@ -1,5 +1,6 @@
 #include "DeathFarm.h"
-
+#include "../VectorTools.h"
+#include "Player.h"
 
 
 DeathFarm::DeathFarm(GameManager & aGameManager, sf::Vector2f aCoord) :
@@ -29,6 +30,7 @@ DeathFarm::~DeathFarm()
 
 bool DeathFarm::Update(sf::Time dt)
 {
+	bool ripe = false;
 	if (mTimeout > sf::seconds(-11.f))
 	{
 		if (mSufficient)
@@ -59,10 +61,25 @@ bool DeathFarm::Update(sf::Time dt)
 	else if (mTimeout > sf::seconds(-20.f))
 	{
 		mSprite.setTextureRect(sf::IntRect(216 + 54 * 4, 243, 54, 53));
+		ripe = true;
 	}
 	else
 	{
 		mSprite.setTextureRect(sf::IntRect(216 + 54 * 5, 243, 54, 53));
+	}
+
+	if (ripe)
+	{
+		Player &player = mGameManager.GetPlayer();
+		sf::Vector2f displace = mCoords - player.GetWorldCoords();
+		float dist = VectorTools::Normalize(displace);
+
+		if (dist < 40.f)
+		{
+			//Harvest
+			mTimeout = sf::seconds(-20.f);
+			player.mCobs += 3;
+		}
 	}
 
 	if (mBestTime > mTimeout)

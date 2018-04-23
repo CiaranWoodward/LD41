@@ -23,6 +23,10 @@ public:
 
 	sf::Vector2f GetWorldCoords();
 
+	int mCobs;
+	int mKernels;
+	int mHealth;
+
 private:
 	GameManager &mGameManager;
 	Crosshair &mCrosshair;

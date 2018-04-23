@@ -27,6 +27,8 @@ private:
 	sf::Vector2f mFocusPoint;
 	sf::Vector2f mScreenBump;
 
+	sf::Text mAmmoDisplay;
+
 	GameManager &mGameManager;
 };
 
