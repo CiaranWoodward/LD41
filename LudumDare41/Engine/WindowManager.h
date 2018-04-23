@@ -28,6 +28,7 @@ private:
 	sf::Vector2f mScreenBump;
 
 	sf::Text mAmmoDisplay;
+	sf::Text mKillCountDisplay;
 
 	GameManager &mGameManager;
 };

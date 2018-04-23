@@ -79,6 +79,7 @@ bool DeathFarm::Update(sf::Time dt)
 			//Harvest
 			mTimeout = sf::seconds(-20.f);
 			player.mCobs += 3;
+			mGameManager.IncrementHarvests(3);
 		}
 	}
 

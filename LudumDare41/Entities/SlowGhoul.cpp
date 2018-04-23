@@ -63,7 +63,10 @@ bool SlowGhoul::Update(sf::Time dt)
 
 
 		if (mDeathTimeout < sf::Time::Zero)
+		{
+			mGameManager.BumpKillCount();
 			return false;
+		}
 		return true;
 	}
 

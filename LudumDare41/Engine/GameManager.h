@@ -25,9 +25,13 @@ public:
 	WindowManager &GetWindowManager() { return mWindowManager; }
 
 	uint32_t GetDifficulty() { return mCorpseTotal / 50; }
+	uint32_t GetKillCount() { return mCorpseTotal; }
 	uint32_t GetGrainCount() { return mGrainCounter; }
 
 	Player &GetPlayer() { return *mPlayer; }
+
+	void BumpKillCount() { mCorpseTotal++; }
+	void IncrementHarvests(int num) { mGrainCounter += num; }
 
 private:
 	DrawManager mDrawManager;
